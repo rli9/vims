@@ -1,0 +1,18 @@
+<%= table_tag BitsInterpreter, 'bits_interpreter' %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+
+<% @bits_segments.each do |@bits_segment| %> 
+  <%= table_tag BitsSegment, 'bits_segment' %> 
+  
+  <% unless @bits_segment.bits_values.size <= 0 %> 
+    <%= start_table_tag %> 
+    <%= content_tag(:tr, table_header_tag(BitsValue)) %> 
+    <% @bits_segment.bits_values.each do |@bits_value| %> 
+      <%= content_tag(:tr, table_line_tag(BitsValue, 'bits_value')) %> 
+    <% end %> 
+    <%= end_table_tag %> 
+  <% end %> 
+  <%= tag(:p) %> 
+<% end %> 

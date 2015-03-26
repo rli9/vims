@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: test_target_instance_01
+  change_list_id: 1
+  test_target: one
+
+two:
+  name: test_target_instance_02
+  change_list_id: 2
+  test_target: one
+
+three:
+  name: test_target_instance_03
+  change_list_id: 3
+  test_target: one
+
+  
+test_special:
+  name: test_target_instance_special
+  change_list_id: 4
+  test_target: one
+
+# two:
+#   column: value

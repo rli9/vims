@@ -1,0 +1,63 @@
+<div class="left_content_button_frame"></div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.delete_test_target_instance_link').click(function() {
+      $("input[name='test_target_instance[name]']").attr("value", $(this).attr("name"))
+      $("input[name='test_target_instance[id]']").attr("value", $(this).attr("id"))
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $('#overlay').fadeIn(50, function() {
+        $('#delete_test_target_instance_box').animate( {
+          'top' : '150px'
+       }, 1);
+     });
+   });
+
+    $('#delete_test_target_instance_cancel_button').click(function() {
+      $('#delete_test_target_instance_box').animate( {
+        'top' : '-500px'
+     }, 1, function() {
+        $('#overlay').fadeOut(50);
+     });
+   });
+ });
+</script>
+
+<div id="TestTargetInstanceList">
+  <div id="TestTargetInstanceListTitle">
+    <div id="BuildListFont">
+      Build List
+    </div>
+    <div id="BuildListButton">
+      <%= left_button_tag('Add Build', :action => 'new') %>
+    </div>
+  </div>
+  <% @test_target_instances.each do |test_target_instance| %>
+    <div class="TestTargetInstanceListItem">
+      <div id="tti_left_content">
+        <div class="project_green_square"></div>
+      </div>
+      <div id="tti_right_content">
+        <div id="TestTargetInstanceName">
+          <div id="TestTargetInstanceNameLeft">
+            <%= link_to(test_target_instance.name, :controller => 'test_target_instances', :action => 'show', :id => test_target_instance) %>
+          </div>
+          <div id="TestTargetInstanceNameRight"></div>
+        </div>
+        <div id="TestTargetInstanceDetail">
+          Change List : <%= test_target_instance.change_list_id %>
+        </div>
+      </div>
+    </div>
+    <div id ="ttc_right_content">
+      <div id="ttc_TestTargetInstanceDeatil">
+        <%= test_target_instance.creator ? test_target_instance.creator.name : '' %> | <%= test_target_instance.created_at.strftime("%m/%d/%Y") %>
+          | <%= link_to('Edit', :action => 'edit', :id => test_target_instance) %>
+          | <span name="<%= "#{test_target_instance.name}" %>" class="delete_test_target_instance_link" id=<%= test_target_instance.id.to_s %> ><a href="#">Delete</a></span>
+      </div>
+    </div>
+    <div id="TestTargetInstanceTestTargetInstancesBottomLine"></div>
+  <% end %>
+</div>
+<%= render :partial => 'delete_test_target_instance' %>
+<div id="overlay" class="overlay" ></div>
+

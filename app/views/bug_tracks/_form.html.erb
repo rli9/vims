@@ -1,0 +1,63 @@
+<%= form_for(@bug_track) do |f| %>
+  <% if @bug_track.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bug_track.errors.count, "error") %> prohibited this bug_track from being saved:</h2>
+
+      <ul>
+      <% @bug_track.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <tr>
+      <div class="field">
+        <td><strong>Bug ID</strong></td>
+        <td><%= f.text_field :bug_id %></td>
+      </div>
+    </tr>
+    <tr>
+      <div class="field">
+        <td><strong>Test Case Name</strong></td>
+        <td><%= f.text_field :test_case_name, size: @bug_track.test_case_name.size + 10 %></td>
+      </div>
+    </tr>
+
+    <tr>
+      <div class="actions">
+        <td><%= f.submit class: 'add_button' %></td>
+      </div>
+    </tr>
+  </table>
+<% end %>
+
+<% if @bug_track.test_case %>
+  <table border="1">
+    <% test_target_instance_ids_test_results = @bug_track.test_case.test_results.includes(:test_target_instance).group_by(&:test_target_instance_id) %>
+    <% test_target_instance_ids_test_results.to_a.sort_by {|item| item[1].first.test_target_instance.change_list_id}.reverse.each do |item| %>
+      <% item[1].each_with_index do |test_result, index| %>
+        <tr>
+          <% if index == 0 %>
+            <td rowspan="<%= item[1].size %>">
+              <%= test_result.test_target_instance.name %>
+            </td>
+          <% end %>
+
+          <% case test_result.value %>
+          <% when TestResult::TEST_TARGET_FAIL %>
+            <td bgcolor='red' align="center">F</td>
+          <% when TestResult::TEST_TARGET_PASS %>
+            <td bgcolor='green' align="center">P</td>
+          <% when TestResult::TEST_CASE_FAIL %>
+            <td bgcolor='grey' align="center">CF</td>
+          <% else %>
+            <td bgcolor='grey'></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </table>
+<% end %>

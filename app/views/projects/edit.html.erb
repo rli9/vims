@@ -1,0 +1,22 @@
+<div class="content_table">
+  <%= form_tag("/projects/update/") do %>
+    <%= hidden_field_tag 'id', @project.id %>
+    <table border='0' bordercolor='#888888' width="100%">
+      <tr>
+        <td colspan="3" bgcolor="#ccc0da"><p class="table_title">Edit Project</p></td>
+      </tr>
+  	  <tr><td>&nbsp;</td></tr>
+      <tr> <%= ths_tag('Project Name *') %> </tr>
+      <tr>
+        <%= td_tag(text_field 'project', 'name') %>
+      </tr>
+      <tr> <%= ths_tag('Test Target Name *') %> </tr>
+
+      <tr>
+        <%= td_tag(text_field 'test_target', 'name') %>
+      </tr>
+		  <tr><td>&nbsp;</td></tr>
+		  <tr> <%= td_tag(submit_button_green_tag('Update'), :colspan => 2) %> </tr>
+    </table>
+  <% end %>
+</div>

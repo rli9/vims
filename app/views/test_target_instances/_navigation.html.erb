@@ -1,0 +1,84 @@
+<script type="text/javascript">
+	$(function() {
+		$("#generate_test_report_button").click(function(e) {
+			$('#overlay_generate_test_report').fadeIn(50, function() {
+				$('#choose_comparing_os_box').animate( {
+					'top' : '150px'
+				}, 1);
+			});
+		});
+		$("#generate_test_report_cancel_button").click(function(e) {
+			$('#choose_comparing_os_box').animate( {
+				'top' : '-500px'
+			}, 1, function() {
+				$('#overlay_generate_test_report').fadeOut(50);
+			});
+		});
+	});
+
+	function set_compare_test_target_instance(value) {
+		document.getElementById("compared_test_target_instance_id").value = value
+	}
+</script>
+<div id="overlay_generate_test_report" class="overlay">
+	<div id="choose_comparing_os_box" name="choose_comparing_os_box" class="jpopup_box">
+		<table border='0' class="table_new_box_popup">
+			<tr>
+				<td colspan="5" bgcolor="#ccc0da"> <p class="table_title">	Choose Compared Build And Dimension	</p></td>
+			</tr>
+			 <% project_test_target_instances = TestTargetInstance.where(test_target_id: session[:test_target_id]).order("change_list_id desc") %>
+			 <% test_target_id = @test_target_instance.test_target_id %>
+			 <% test_case_templates = TestCaseTemplate.where(["test_target_id = ?", test_target_id]) %>
+			 <% all_test_case_template_params = test_case_templates.collect(&:test_case_template_params).flatten.compact %>
+
+			<tr>
+				<td colspan="3">Compare <strong><%= @test_target_instance.name %></strong></td>
+			</tr>
+			<tr>
+				<td colspan="3">To <%= select("compare_test_target_instance", "id", project_test_target_instances.collect {|item| [item.name, item.id]}, options = {:include_blank => true}, html_options = {:style => "width:225px;", :onchange => "set_compare_test_target_instance(this.options[this.selectedIndex].value)"}) %>
+				</td>
+			</tr>
+		</table>
+		<form id="choose_comparing_os" name="choose_comparing_os_box" method="get" action="/test_target_instances/show_test_report">
+			<input type="hidden" name="id" id="test_target_instance_id" value="<%= @test_target_instance.id %>">
+			<input type="hidden" name="id" id="id" value="<%= @test_target_instance.id %>">
+			<input type="hidden" name="project_id" id="project_id" value="<%= session[:project_id] %>" />
+			<input type="hidden" name="member_id" id="member_id" value="<%= session[:member_id] %>" />
+			<input type="hidden" name="test_target_id" id="test_target_id" value="<%= session[:test_target_id] %>" />
+			<input type="hidden" name="compared_test_target_instance_id" id ="compared_test_target_instance_id" />
+			<table>
+				<tr>
+					<td colspan="3"> <%= submit_button_green_tag("Generate Test Report") %> </td>
+					<td colspan="2"> <%= jquery_jpopup_close_button("cancel", "generate_test_report_cancel_button") %> </td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<% case tc_step %>
+<% when 'overview' %>
+  <span class="newnav_current"> <%= link_to('Overview', {:controller => 'test_target_instances', :action => 'show', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Input Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_by_test_suite', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Batch Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_batch', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <button class="newnav" id="generate_test_report_button" name="generate_test_report_button">	Generate Test Report</button>
+<% when 'input_test_result' %>
+  <span class="newnav"> <%= link_to('Overview', {:controller => 'test_target_instances', :action => 'show', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav_current"> <%= link_to('Input Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_by_test_suite', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Batch Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_batch', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <button class="newnav" id="generate_test_report_button" name="generate_test_report_button">	Generate Test Report </button>
+<% when 'batch_test_result' %>
+  <span class="newnav"> <%= link_to('Overview', {:controller => 'test_target_instances', :action => 'show', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Input Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_by_test_suite', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav_current"> <%= link_to('Batch Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_batch', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <button class="newnav" id="generate_test_report_button" name="generate_test_report_button">	Generate Test Report </button>
+<% when 'generate_test_report' %>
+  <span class="newnav"> <%= link_to('Overview', {:controller => 'test_target_instances', :action => 'show', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Input Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_by_test_suite', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav"> <%= link_to('Batch Test Result', {:controller => 'test_target_instances', :action => 'edit_test_result_batch', :id => @test_target_instance.id}, :class => 'link_green' ) %> </span>
+  <span class="newnav_current" id="generate_test_report_button"><p class="link_green"> Generate Test Report</p></span>
+<% else %>
+  Navigation Action Error
+<% end %>
+
+<br/>

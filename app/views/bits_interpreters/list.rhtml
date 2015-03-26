@@ -1,0 +1,24 @@
+<%= button_tag "Update BitsInterpreters", :action => "to_edit_nil", :id => 0 %> 
+<%= tag(:p) %> 
+
+<%= start_table_tag %> 
+  <tr>
+    <%= content_tag(:th, "Show", :bgcolor => "#9acd32") %> 
+    <%= table_header_tag BitsInterpreter %> 
+    <%= content_tag(:th, "Interpret", :bgcolor => "#9acd32") %> 
+  </tr>
+   
+  <% for @bits_interpreter in @bits_interpreters %> 
+    <tr>
+      <td bgcolor='silver'>
+        <%= button_tag("Show", :action => 'show', :id => @bits_interpreter ) %> 
+      </td>
+      <%= td_tag_single_object BitsInterpreter, 'bits_interpreter', { "description" => { :multiple_lines => true } } %> 
+      <% form_tag( {:action => 'interpret', :id => @bits_interpreter}, :target => "_blank") do %> 
+        <td bgcolor='silver'>
+          <%= submit_tag("Interpret" ) %> 
+        </td>
+      <% end %> 
+    </tr>
+  <% end %> 
+<%= end_table_tag %> 

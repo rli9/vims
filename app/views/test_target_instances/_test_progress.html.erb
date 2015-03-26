@@ -1,0 +1,22 @@
+<div id="accordion0" style="width:315px; float:left;">
+  <% for test_suite in @test_suites %>
+    <% weighted_test_results = @test_target_instance.find_weighted_test_results_by_test_suite(test_suite) %>
+
+    <% next if weighted_test_results.empty? %>
+    <div>
+      <%= link_to(test_suite.name + " (#{weighted_test_results.size})", {:controller => 'test_target_instances', :action => 'edit_results_test_page', :id => @test_target_instance, :test_suite_id => test_suite}, :popup => true, :style => "font-size:14px; font-weight: bold") %>
+    </div>
+    <%= test_progress_chart(weighted_test_results) %>
+  <% end %>
+</div>
+
+<div id="accordion1" style="width:315px; float:right; margin-left:10px;">
+  <% for member in @test_target_instance.members %>
+    <% weighted_test_results = @test_target_instance.find_weighted_test_results_by_member(member) %>
+    <% next if weighted_test_results.empty? %>
+    <div style="font-size:14px; font-weight: bold">
+      <%= link_to("#{member.name} (#{weighted_test_results.size})", {:controller => 'test_target_instances', :action => 'edit_results_test_page', :id => @test_target_instance, :member_id => member.id}, :popup => true) %>
+    </div>
+    <%= test_progress_chart(weighted_test_results) %>
+  <% end %>
+</div>

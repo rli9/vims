@@ -1,0 +1,18 @@
+<table border='1' bordercolor='#888888'>
+  <tr>
+    <%= th_tag('No.') %> 
+    <%= th_tag('Delete') %> 
+    <%= th_tag('Test case') %> 
+    <%= th_tag(image_tag('health.gif', :alt => 'health')) %> 
+    <%= th_tag('Remark') %> 
+    <%= th_tag(image_tag("patent.gif", :alt => 'index')) %> 
+    <%= th_tag('Created At') %> 
+  </tr>
+  <% @test_results.each_index do |index| %> 
+    <% test_result = @test_results[index] %> 
+    <tr <%= "id='#{test_result.id}'" %> >
+      <%= td_tag(index + 1) %> 
+      <%= render(:partial => 'test_result', :object => test_result) %> 
+    </tr>
+  <% end %> 
+</table>

@@ -1,0 +1,20 @@
+<% content_for(:left_sidebar) do %>
+  <div class="left_content_button_frame">
+    <%= left_button_tag('Add Test Target', :action => 'new') %>
+  </div>
+<% end %>
+
+<table bordercolor="#888888" border="1">
+  <tr>
+    <%= ths_tag('No.', 'Name', 'Action', 'TestTargetInstance', 'OS Association') %>
+  </tr>
+  <% for test_target in @test_targets %>
+    <tr>
+    	<td> <%= test_target.id %> </td>
+    	<td> <%= test_target.name %> </td>
+    	<td> <%= link_to image_tag('edit.gif', :alt => 'Edit'), edit_test_target_path(test_target) %> <%= link_to (image_tag('delete.gif', :alt => 'delete'), test_target, :confirm => 'Are you sure to delete?', :method => :delete) if test_target.deletable? %> </td>
+    	<td> <%= link_to 'TestTargetInstance', :controller => 'test_target_instances', :action => 'list', :id => 0, :test_target_id => test_target.id %> </td>
+    </tr>
+  <% end %>
+</table>
+<br />

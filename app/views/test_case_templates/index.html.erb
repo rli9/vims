@@ -1,0 +1,96 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#active_new_template').click(function() {
+      $('#overlay').fadeIn(50, function() {
+        $('#new_template_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+    $('#active_new_template_cancel_button').click(function() {
+      $('#new_template_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+    $('.active_edit_test_template_instance').click(function() {
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $('#overlay').fadeIn(50, function() {
+        $('#edit_test_template_instance_box').animate({'top' : '150px'}, 1);
+      });
+    });
+    $('.active_edit_test_template_parameter').click(function() {
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $("input[name='test_case_template_param[name]']").attr("value", $(this).attr("name"))
+
+      $('#overlay').fadeIn(50, function() {
+        $('#edit_test_template_parameter_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+
+    $('#active_edit_template_parameter_cancel_button').click(function() {
+      $('#edit_test_template_parameter_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+  });
+</script>
+
+<div class="jpopup_add_button" id="active_new_template">
+  New Test Case Template
+</div>
+<br/>
+
+<table border="0">
+  <% @test_case_templates.sort_by {|template| template.name.downcase}.each_with_index do |test_case_template, index| %>
+    <tr>
+      <td><strong><%= index %>. </strong></td>
+      <td>
+        <table border="0">
+          <tr>
+            <%=
+              html = [td_tag(link_to test_case_template.name, edit_test_case_template_path(test_case_template))]
+              html += test_case_template.test_case_template_params.map do |test_case_template_param|
+                <<-EOF
+                  <td>
+                  #{link_to(image_tag('trash_16.gif'), {controller: "test_case_template_params", action: "delete", id: test_case_template_param.id}, data: {confirm: 'Are you sure?'})}
+                  </td>
+                  <td>
+                    <div name=\"#{test_case_template_param.name}\" class=\"active_edit_test_template_parameter\" id=#{test_case_template_param.id}>
+                      #{test_case_template_param.name}
+                    </div>
+                  </td>
+                EOF
+              end
+
+              raw(html.join(td_tag('_')))
+            %>
+          </tr>
+        </table>
+      </td>
+
+      <td>
+        <%= form_for(TestCaseTemplateParam.new) do |f| %>
+          <%= hidden_field_tag 'new_test_case_template_param[test_case_template_id]', test_case_template.id %>
+          <%= text_field_tag 'new_test_case_template_param[name]' %>
+          <%= f.submit("New Parameter", :class => "jpopup_add_button") %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+    <tr>
+      <td colspan="3"></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= render :partial => 'test_case_template_params/new_test_template' %>
+<%= render :partial => 'test_case_template_params/edit_test_template_parameter' %>
+<div id="overlay" class="overlay" > </div>

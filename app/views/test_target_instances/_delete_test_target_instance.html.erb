@@ -1,0 +1,16 @@
+<div id="delete_test_target_instance_box" class="jpopup_box">
+	<form id="delete_test_target_instance" method="post" action="/test_target_instances/delete">
+		<%= hidden_field_tag 'id', 'test_target_instance[id]' %>
+		<table border='0' class="table_new_box_popup">
+			<tr>
+				<td colspan="2"><p>Are you sure to delete this test build and related test results ?</p></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				 <%= submit_tag("Yes", :class => "add_button") %>
+				 <%= jquery_jpopup_close_button("No", "delete_test_target_instance_cancel_button") %>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

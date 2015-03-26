@@ -1,0 +1,7 @@
+require File.expand_path('../helpers/application_helper.rb', __FILE__)
+require File.expand_path('../helpers/ajax_helper.rb', __FILE__)
+require File.expand_path('../helpers/google_chart_helper.rb', __FILE__)
+require File.expand_path('../helpers/html_helper.rb', __FILE__)
+require File.expand_path('../helpers/test_case_templates_helper.rb', __FILE__)
+require File.expand_path('../helpers/test_report_helper.rb', __FILE__)
+require File.expand_path('../helpers/test_target_instances_helper.rb', __FILE__)

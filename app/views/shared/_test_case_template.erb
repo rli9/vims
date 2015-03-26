@@ -1,0 +1,48 @@
+<h1> <%= test_case_template.name %> </h1>
+<% 
+  step = @test_case_template_param_instances[1].size * @test_case_template_param_instances[2].size * @test_case_template_param_instances[3].size
+  first_colspan = @test_case_template_param_instances[2].size * @test_case_template_param_instances[3].size
+  ordered_weighted_test_results_index = 0
+%>  
+<% @test_case_template_param_instances[4].each do |instance_4| %> 
+  <table border="1" class="gene_template_report_table">
+    <tr>
+      <td align="center" colspan=<%= step + 1 %> bgcolor="#ffffff"> <%= instance_4.name %> </td>
+    </tr>
+    <tr>
+      <td style="width: 200px" rowspan="3" bgcolor="#efefef"></td>
+        <% for instance_1 in @test_case_template_param_instances[1] %> 
+          <td align="center"  bgcolor="#efefef" colspan=<%= first_colspan %> > <%= instance_1.name %> </td>
+        <% end %> 
+    </tr>
+    
+    <tr>
+      <% for i in 1..@test_case_template_param_instances[1].size %>
+        <% for instance_2 in @test_case_template_param_instances[2] %> 
+          <td align="center" bgcolor="#efefef" colspan=<%= @test_case_template_param_instances[3].size %> > <%= instance_2.name %> </td>
+        <% end %>
+      <% end %> 
+    </tr>    
+    <tr>
+      <% for i in 1..@test_case_template_param_instances[1].size * @test_case_template_param_instances[2].size %>
+        <% for instance_3 in @test_case_template_param_instances[3] %> 
+          <th align="center" bgcolor="#efefef"> <%= instance_3.name %> </th>
+        <% end %> 
+      <% end %> 
+    </tr>    
+    <% unless @ordered_weighted_test_results.nil? || @ordered_weighted_test_results.empty? %>
+      <% @instance_0s_hash[instance_4.id].each do |instace_0| %>
+        <% row_weighted_test_results = @ordered_weighted_test_results.slice(ordered_weighted_test_results_index, step) %> 
+        <%= "" %> 
+        <tr>
+          <td align='left' bgcolor='#efefef'> <%= instace_0.name %> </td>      
+          <% row_weighted_test_results.each do |weighted_test_result| %> 
+            <%= test_result_td(weighted_test_result) %> 
+          <% end %> 
+        </tr>   
+        <% ordered_weighted_test_results_index = ordered_weighted_test_results_index + step %>
+      <% end %>
+    <% end %>   
+  </table>
+<br/>
+<% end %> 

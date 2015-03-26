@@ -1,0 +1,68 @@
+<script type="text/javascript">
+	$(document).ready(
+	  function() {
+		  $('.active_test_case_bug_track').click(
+		    function() {
+    			$("input[name='id']").attr("value", $(this).attr("name"))
+    			$("input[name='bug_track[bug_id]']").attr("value", $(this).attr("id"))
+    			$('#overlay').fadeIn(50,
+    			  function() {
+    				  $('#edit_test_case_bug_track_box').animate( {
+    					  'top' : '150px'
+    				  }, 1);
+			      }
+			    );
+		    }
+		  );
+
+  		$('#active_edit_test_case_bug_track_cancel_button').click(
+  		  function() {
+    			$('#edit_test_case_bug_track_box').animate( {
+    				'top' : '-500px'
+    			}, 1,
+    			function() {
+    				$('#overlay').fadeOut(50);
+    			});
+  		  }
+  		);
+	  }
+	);
+</script>
+
+<form id='formSearch' method='post' action='/bug_tracks/search'" >
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <td>
+        Name: <%= td_tag(text_field_tag('key_words', @key_words, :size => '28', :style =>'height:21px')) %>
+      </td>
+      <td> <%= submit_button_search_tag('Search Test Case') %> </td>
+    </tr>
+  </table>
+</form>
+<table border="1">
+  <tr class="bg_violet">
+    <td>No</td>
+    <td>TestCase</td>
+    <td>BugID</td>
+  </tr>
+  <% @bug_tracks.each_index do |index| %>
+    <% bug_track = @bug_tracks[index] %>
+    <% bug_track_cases = BugTrack.where(test_case_id: bug_track.test_case_id) %>
+    <% bug_track_cases.each_index do |case_index| %>
+      <% bug_track_case = bug_track_cases[case_index] %>
+      <tr>
+        <% if case_index == 0 %>
+          <td rowspan=<%= bug_track_cases.size %> > <%= index + 1 %> </td>
+          <td rowspan=<%= bug_track_cases.size %> > <%= bug_track_case.test_case.name %> ( <%= bug_track_case.test_case_id %> ) </div></td>
+        <% end %>
+        <td>
+          <span> <%= link_to(bug_track_case.bug_id, bug_track_case.bug_config.url + bug_track_case.bug_id.to_s, :style => "color: blue") %> </span>
+          <span name="<%= "#{bug_track_case.id.to_s}" %>" class="active_test_case_bug_track" id=<%= bug_track_case.bug_id.to_s %> >Edit</span>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+<%= render :partial => 'edit' %>
+<div id="overlay" class="overlay" >
+</div>

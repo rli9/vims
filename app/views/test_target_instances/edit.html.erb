@@ -1,0 +1,29 @@
+<div class="content_table">
+  <%= form_for(@test_target_instance) do |f| %>
+    <table border='0' bordercolor='#888888' width="100%" id="table_new_case">
+      <tr>
+        <td colspan="5" bgcolor="#ccc0da">
+        <p class="table_title">Edit Build <span class="span_orange"> <%= @test_target_instance.name %> </span>
+        </p></td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left">Build Name</td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left"> <%= f.text_field(:name, :size => 45) %> </td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left">Change List </td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left"> <%= f.text_field(:change_list_id, :size => 45) %> </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <%= submit_button_green_tag("Update") %>
+          <%= cancel_back_button_tag('Cancel') %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: member_1
+  email: member.1@test.com
+  hashed_password: <%= Digest::SHA1.hexdigest('123456') %>
+  picture_id: 1
+
+two:
+  name: member_2
+  email: member.2@test.com
+  hashed_password: <%= Digest::SHA1.hexdigest('123456') %>
+  picture_id: 1

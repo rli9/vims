@@ -1,0 +1,3 @@
+<% if @test_case_templates %> 
+  <%= render :partial => 'shared/test_case_template', :collection => @test_case_templates, :locals => {:result_flag => @no_pass_result_flag, :test_target_instance => @test_target_instance} %> 
+<% end %> 

@@ -1,0 +1,33 @@
+<div id="box" class="jpopup_box">
+  <%= form_for(@test_suite) do |f| %>
+    <%= hidden_field_tag 'parent_test_suite_ids[]', @select_test_suite_id %>
+    <%= hidden_field_tag 'test_target_id', session[:test_target_id] %>
+    <table border='0' id="table_new_suite_popup">
+      <% if @select_test_suite_id %>
+        <% @select_test_suite = TestSuite.find(@select_test_suite_id) %>
+        <tr>
+          <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create Test Suite Under <span class="span_orange"> <%= @select_test_suite.name %> </span></p></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create Test Suite At <span class="span_orange">Root</span></p></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="2"> <%= f.submit("Create", :class => "add_button") %> <%= jpopup_close_button("cancel") %> </td>
+      </tr>
+      <tr>
+        <%= td_tag('Test Suite Name', :colspane => 2) %>
+      </tr>
+      <tr>
+        <%= td_tag(f.text_field 'name', :colspane => 2) %>
+      </tr>
+      <tr>
+        <%= td_tag("", :colspane => 2) %>
+      </tr>
+      <tr>
+        <td colspan="2"> <%= f.submit("Create", :class => "add_button") %> <%= jpopup_close_button("cancel") %> </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+<%= link_to 'New test_case_template_param_instance', :controller => "test_case_template_param_instances", :action => "new", :id => @test_case_template_id %> 
+<br /><br />
+<table border="1">
+  <tr>
+    <th>TemplateValue</th>
+    <th colspan="3">Action</th>
+  </tr>
+  <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+    <tr>
+      <td> <%= test_case_template_param_instance.name %> </td>
+      <td> <%= link_to 'Show', test_case_template_param_instance %> </td>
+      <td> <%= link_to 'Edit', test_case_template_param_instance_path(test_case_template_param_instance) %> </td>
+      <td> <%= link_to 'Destroy', test_case_template_param_instance, :confirm => 'Are you sure?', :method => :delete %> </td>
+    </tr>
+  <% end %> 
+</table>
+
+
+
+

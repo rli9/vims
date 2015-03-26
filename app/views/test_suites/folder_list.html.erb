@@ -1,0 +1,180 @@
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#active_jpopup').click(function () {
+        $('#overlay').fadeIn('fast', function () {
+            $('#box').animate( { 'top': '150px' }, 1);
+        });
+    });
+    $('.jpopup_cancel_button').click(function () {
+        $('#box').animate( { 'top': '-500px' }, 1, function () {
+            $('#overlay').fadeOut('fast');
+        });
+    });
+  });
+</script>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+  	//Select tag with rel
+  	$('div[rel=tooltip]').mouseover(function(e) {
+  		//Grab title attributes
+  		var tip = $(this).attr('title');
+                  //del default browser title style
+  		$(this).attr('title', '');
+  
+  		$(this).append('<div id="tooltip"><div class="tipHeader"></div><div class="tipBody">' + tip + '</div><div class="tipFooter"></div></div>');
+  		$('#tooltip').css('top', e.pageY + 10 );
+  		$('#tooltip').css('left', e.pageX + 20 );
+                  $('#tooltip').delay(100).fadeTo('300', 0.8);
+  	}).mouseout(function() {
+                       $(this).attr('title', $('.tipBody').html());
+                       $(this).children('div#tooltip').remove();
+  	});
+  });
+
+</script>
+<style type="text/css">
+  /* Tooltip */
+
+  #tooltip {
+  	position:absolute;
+  	z-index:9999;
+  	color:#63843E;
+  	font-size:10px;
+  	width:180px;
+          filter: alpha(opacity=0);
+          -moz-opacity:0;
+          opacity: 0;
+  }
+  
+  #tooltip .tipHeader {
+  	height:8px;
+  	background:url(images/tipHeader.gif) no-repeat;
+  }
+  
+  
+  #tooltip .tipBody {
+  	background-color:#f7f5d1;
+  	padding:5px 5px 5px 15px;
+  }
+  
+  #tooltip .tipFooter {
+  	height:8px;
+  	background:url(images/tipFooter.gif) no-repeat;
+  }
+</style>
+
+<script type="text/javascript">
+  jQuery(function($) {	
+  //test_suite_label hover style change
+  	$(".test_suite_label").hover(function() {
+  		$(this).addClass("blue_border");
+  		}, function() {
+  		$(this).removeClass("blue_border");
+  	});
+  //test_suite_label click css change
+  	$(".test_suite_label").click(function() {
+  		$(".test_suite_label").removeClass("darkblue_border");
+  		$(".test_case_list_label").removeClass("darkblue_border");
+  		$(this).addClass("darkblue_border");
+  	});
+  //test_suite_label double click css change
+  	$(".test_suite_label").dblclick(function() {
+  		location.href ="../folder_list/0?test_suite_id=" + $(this).attr("test_suite_id");
+  	});
+  	
+  	$(".test_case_list_label").hover(function() {
+  		$(this).addClass("blue_border");
+  		}, function() {
+  		$(this).removeClass("blue_border");
+  	});
+    $(".test_case_list_label").toggle(
+      function () {
+        $(this).find("input").attr("checked", true);
+		    $(".test_suite_label").removeClass("darkblue_border");
+		    $(".test_case_list_label").removeClass("darkblue_border");
+		    $(this).addClass("darkblue_border");
+        check_checkbox();
+      }, 
+      function () {
+        $(this).find("input").attr("checked", false);
+		    $(".test_suite_label").removeClass("darkblue_border");
+		    $(".test_case_list_label").removeClass("darkblue_border");
+		    $(this).addClass("darkblue_border");
+          check_checkbox();
+        }
+    );  	
+  	$(".test_case_list_label").dblclick(function() {
+  		location.href ="../../test_cases/show/" + $(this).attr("test_case_id");
+  	});
+  
+  //check_checkbox_select change class
+    function check_checkbox() {
+     var falg = 0;
+     $("input[name='test_case_ids[]']").each(function() {
+      if($(this).attr("checked"))
+      {
+       falg +=1;
+      }
+     })
+     if(falg >0) {
+      $("#folder_list_cut").attr("class", "case_cut");
+      $("#folder_list_del").attr("class", "case_cut");}
+     else {
+      $("#folder_list_cut").attr("class", "case_cut_gray");
+      $("#folder_list_del").attr("class", "case_cut_gray");}
+    }
+    
+    //select checkbox confirm button
+    $("input[name='test_case_ids[]']").click(function() {
+      check_checkbox();
+    })
+  
+    $("#folder_list_paste").click(function() {
+      location.href ="../../test_cases/paste/" + $(this).attr("name");
+    })
+  
+    $("#folder_list_cut").click(function() {
+      if ($(this).attr("class") == "case_cut")
+        $("#form_folder_list").attr("action", "/test_cases/cut").submit();
+      else
+        alert("Please select case");
+    })
+  
+    $("#folder_list_del").click(function() {
+      if ($(this).attr("class") == "case_del")
+        $("#form_folder_list").attr("action", "/test_cases/cut").submit();
+      else
+        alert("Please select case");
+    })
+  
+    
+    //select all checkbox
+    $("#select_all_checkbox").click(function() {
+      if ($(this).attr("checked") == true) { // select all
+        $("input[name='test_suite_ids[]']").each(function() {
+          $(this).attr("checked", true);
+        });
+        $("input[name='test_case_ids[]']").each(function() {
+          $(this).attr("checked", true);
+        });
+        check_checkbox();
+      }
+      else { // cancel select
+        $("input[name='test_suite_ids[]']").each(function() {
+          $(this).attr("checked", false);
+        });
+        $("input[name='test_case_ids[]']").each(function() {
+          $(this).attr("checked", false);
+        });
+        check_checkbox();
+      }
+    });
+  });  
+</script>
+<div id="test_suite_list">
+ <%= render :partial => 'folder_style', :object => @current_test_suite %> 
+</div>
+<%= render :partial => 'new_test_suite' %> 
+<div id="overlay" class="overlay" ></div>
+<br/>

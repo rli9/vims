@@ -1,0 +1,17 @@
+<div id="tab_view">
+  <div id="tab_view_container">
+    <ul>
+    <% items.sort.each do |x| %> 
+      <% if active == x[0] %> 
+        <li class="tab_view_item_active">
+        <%= x[1] %> 
+        </li>
+      <% else %> 
+        <li class="tab_view_item_normal">
+      <%= x[1] %> 
+        </li>
+      <% end %> 
+    <% end %> 
+    </ul>
+  </div>
+</div>

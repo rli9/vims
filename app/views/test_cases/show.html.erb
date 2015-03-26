@@ -1,0 +1,28 @@
+<p class="title"><%= @test_case.name %></p>
+<p class="title">Total <%= @test_case.test_results.size %> results</p>
+
+<table border="1">
+  <% test_target_instance_ids_test_results = @test_case.test_results.includes(:test_target_instance).group_by(&:test_target_instance_id) %>
+  <% test_target_instance_ids_test_results.to_a.sort_by {|item| item[1].first.test_target_instance.change_list_id}.reverse.each do |item| %>
+    <% item[1].each_with_index do |test_result, index| %>
+      <tr>
+        <% if index == 0 %>
+          <td rowspan="<%= item[1].size %>">
+            <%= test_result.test_target_instance.name %>
+          </td>
+        <% end %>
+
+        <% case test_result.value %>
+        <% when TestResult::TEST_TARGET_FAIL %>
+          <td bgcolor='red' align="center">F</td>
+        <% when TestResult::TEST_TARGET_PASS %>
+          <td bgcolor='green' align="center">P</td>
+        <% when TestResult::TEST_CASE_FAIL %>
+          <td bgcolor='grey' align="center">CF</td>
+        <% else %>
+          <td bgcolor='grey'></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

@@ -1,0 +1,42 @@
+<%= render :partial => "shared/expheader", :locals => {:text => "Members Management"} %>
+
+<%= form_tag('/projects/add_member') do %>
+  <table border="0">
+    <tr>
+      <%= td_tag(select_tag('member_id', (@members - Member.all.order("name")).map {|member| [member.name, member.id]})) %>
+      <%= td_tag(submit_button_green_tag("Add member to #{@project.name}")) %>
+    </tr>
+  </table>
+<% end %>
+<br/>
+
+<div id="ProjectMemberList">
+  <div id="ProjectMemberListTitle">
+	  Project Members List
+  </div>
+  <% for member in @members %>
+    <div class="ProjectMemberItem">
+      <div id="project_member_left_content">
+        <div class="project_green_square">
+        	<% if member.picture_id %>
+          	<img width="60" height="60" alt="picture" src="<%= url_for(:controller => 'pictures', :action => "picture", :id => member.picture_id) %>"/>
+				  <% end %>
+        </div>
+      </div>
+      <div id="project_member_right_content">
+        <div id="ProjectMemberNameLink">
+          <%= member.name %>
+        </div>
+        <div id="ProjectMemberDetail">
+          Email : <%= member.email %> %>
+				  <% if @project.created_by?(@member) %>
+				    <% link_to(image_tag('delete.gif', :alt => 'Delete'), {:controller => 'members', :action => 'delete', :id => member.id}, :confirm =>"Are you sure to delete #{member.name}?", :method=> :delete) %>
+				  <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<br/>
+
+

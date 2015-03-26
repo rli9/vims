@@ -1,0 +1,24 @@
+<%= form_tag("/test_results/update_test_result2/#{@test_result.id}") do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('Test Case', :rowspan => 2) %>
+      <%= th_tag('Test Target', :colspan => 2) %>
+      <%= th_tag('Test Tase', :colspan => 1) %>
+      <%= th_tag('Create', :rowspan => 2) %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= th_tag('Pass') %>
+      <%= th_tag('Fail') %>
+      <%= th_tag('Fail') %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= td_tag(@test_result.test_case.name) %>
+      <%= td_tag(text_field('test_result', 'test_target_pass', :size => 3)) %>
+      <%= td_tag(text_field('test_result', 'test_target_fail', :size => 3)) %>
+      <%= td_tag(text_field('test_result', 'test_case_fail', :size => 3)) %>
+      <%= td_tag(submit_button_green_tag('Update')) %>
+    <% end %>
+  <% end %>
+<% end %>

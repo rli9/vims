@@ -1,0 +1,36 @@
+<% unless @_curr.nil? %> 
+  <% form_tag(:action => "done_edit_#{@_curr[:record]}", :curr_id => @curr) do %> 
+    <%= submit_tag("Back", :name => "submit_type") %>  
+    <div style="background-color:silver;"> <%= content_tag(:p, content_tag(:h3, "#{@_curr[:table]}")) %> </div>
+    <%= error_messages_for('curr') %> 
+    <%= vertical_table_tag_single(@_curr[:table], 'curr', options(@_curr[:table], @_curr[:options])) %> 
+    <%= tag(:p) %> 
+    <%= submit_tag("Save", :name => "submit_type") %> <%= submit_tag("Save & Back", :name => "submit_type") %> 
+  <% end %> 
+<% else %> 
+  <% form_tag(:action => "done_edit_nil") do %> 
+    <%= submit_tag("Back", :name => "submit_type") %> 
+  <% end %> 
+  <% unless @_next.nil? %> 
+    <div style="background-color:silver;"> <%= content_tag(:p, content_tag(:h3, "#{@_next[:table]}s")) %> </div>
+    <%= error_messages_for('new_next') %> 
+    <% form_tag(:action => "done_add_#{@_next[:record]}", :curr_id => @curr) do %> 
+      <%= vertical_table_tag_single(@_next[:table], 'new_next', options(@_next[:table], @_next[:options])) %> 
+      <%= submit_tag("Add") %> 
+    <% end %> 
+    <%= tag(:p) %> 
+    <%= start_table_tag %> 
+    <%= content_tag(:tr, table_header_tag(@_next[:table])) %> 
+    <% unless @nexts.nil? %> 
+      <% for @temp in @nexts %> 
+        <tr>
+          <%= td_tag_single_object(@_next[:table], 'temp', @_next[:options]) %> 
+          <td>
+            <%= button_tag('Edit', :action => "to_edit_#{@_next[:record]}", :id => 0, :curr_id => @temp) %> 
+          </td>                                                
+        </tr>
+      <% end %> 
+    <% end %> 
+  <%= end_table_tag %> 
+<% end %> 
+

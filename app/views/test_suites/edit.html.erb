@@ -1,0 +1,35 @@
+<script type="text/javascript">
+  $(function() {
+    $("#accordion").accordion( {
+      autoHeight: false,
+      collapsible: true,
+      icons: {
+        header: "ui-icon-circle-arrow-e",
+        headerSelected: "ui-icon-circle-arrow-s"
+      }
+    });
+  });
+</script>
+
+<% form_for(@test_suite) do |f| %>
+  <table border='0' id="table_new_case">
+    <% if @parent_suite_ids.size > 0 %>
+      <%= hidden_field_tag 'parent_test_suite_ids[]', @parent_suite_ids %>
+    <% end %>
+    <% tr_tag do %>
+       <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Edit Test Suite: <span class="span_orange"> <%= @test_suite.name %> ( <%= @test_suite.id %> )</span></p></td>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag('Test Suite Name', :colspane => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(f.text_field 'name', :colspane => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag("", :colspane => 2) %>
+    <% end %>
+    <% tr_tag do %>
+    <%= td_tag([f.submit("Update", :class => "add_button"), cancel_back_button_tag('cancel')], :colspan => 2) %>
+    <% end %>
+  </table>
+<% end %>

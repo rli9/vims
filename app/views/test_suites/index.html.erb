@@ -1,0 +1,83 @@
+<% content_for(:left_sidebar) do %> 
+	<div class="left_content_button_frame">
+		 <%= left_button_tag('Add Test Suite', :action => 'new') %> 
+		 <%= left_button_tag('Add Test Case', :controller => 'test_cases', :action => 'new') %> 
+	</div>
+<% end %> 
+
+<script type="text/javascript">
+  // build regular expression object to find empty string or any number of spaces
+  var blankRegularExpression = /^\s*$/;
+  
+  function IsEmpty (textObject)
+  {
+    if (blankRegularExpression.test (textObject.value)) {
+      alert (textObject.name + ' is empty or contains only spaces.');
+      textObject.focus ();
+      return true;
+    }
+    return false;
+  }
+  
+  function ValidateForm (form)
+  {
+    if (IsEmpty (form.key_words)) {
+      return false;
+    }
+    return true;
+  }
+</script>
+<br/>
+
+
+<form id='form_search_test_case' method='post' action='/test_cases/search' onsubmit='return ValidateForm (this);' >  
+  <table border='0' bordercolor='#888888' class='tra' align="center">
+    <tr>
+      <%= td_tag(text_field_tag('key_words', @key_words, :size => '58', :style =>'height:21px')) %> 
+      <%= td_tag(submit_button_search_tag('Search Test Case')) %> 
+    </tr>
+  </table>
+</form>
+<br/>
+
+<script type="text/javascript">
+  $(function() {
+    $("#accordion").accordion( {
+      autoHeight: false, 
+      collapsible: true, 
+      icons: {
+        header: "ui-icon-circle-arrow-e", 
+        headerSelected: "ui-icon-circle-arrow-s"
+      }       
+    });
+  });
+</script>
+
+<div id=accordion>         
+  <% @top_test_suites.each do |top_test_suite| %> 
+    <h3><a href="#"> <%= top_test_suite.name %> </a></h3>      
+    
+    <div>
+      <table id=<%= "'table_#{top_test_suite.name}'" %> border='1' bordercolor='#888888' width="650px">  
+        <tr>
+          <td width="4%">No.</td>
+          <%= td_tag('Name', :colspan => @max_recursive_child_test_suite_depth + 1, :width => "43%") %> 
+      		<td width="16%">Test Case Number</td>
+      		<td width="16%">Show Test Cases</td>
+      		<td width="21%">Action</td> 
+        </tr>
+        <%= tr_tags_test_suites([top_test_suite], 0, @max_recursive_child_test_suite_depth + 1) %> 
+      </table>
+    </div>
+  <% end %> 
+</div>   
+<table>
+  <tr>
+    <%= th_tag('No.') %> 
+    <%= th_tag('Name', :colspan => @max_recursive_child_test_suite_depth + 1) %> 
+    <%= th_tag('Test Case Number') %> 
+    <%= th_tag('Show Test Cases') %> 
+    <%= th_tag('Action') %> 
+  </tr>    
+  <%= tr_tags_test_suites(@top_test_suites, 0, @max_recursive_child_test_suite_depth + 1) %> 
+</table>

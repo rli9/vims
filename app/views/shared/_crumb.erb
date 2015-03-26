@@ -1,0 +1,4 @@
+<% if session[:project_id] && @project %> 
+  <b>You are now in <a href="/projects">VIMS</a>  ===> <a href="/projects/manage/ <%= session[:project_id].to_s %>"> <%= @project.name %> </a>  ===>
+  <%= controller.controller_name.gsub("_", " ").capitalize %> </b>
+<% end %> 

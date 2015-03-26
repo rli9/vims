@@ -1,0 +1,35 @@
+<div id="edit_test_case_bug_track_box" class="jpopup_box">
+	<form id="edit_test_case_bug_track" method="post" action="/bug_tracks/update">
+		<script type="text/javascript">
+			$(function() {
+				$("button[name='delete_bug_track']").click(
+				   function(e) {
+					   $("#edit_test_case_bug_track").attr("action", "/bug_tracks/delete")
+					   $("#edit_test_case_bug_track").submit
+				   }
+				);
+			});
+		</script>
+		<%= hidden_field_tag 'id', "0" %> 
+		<table border='0' class="table_new_box_popup">
+			<tr>
+				<td colspan="2" bgcolor="#ccc0da">
+				<p class="table_title">
+					Edit Test Case Bug Track
+				</p></td>
+			</tr>
+			<tr>
+				 <%= td_tag('Test Case Bug Track Id', :colspane => 2) %> 
+			</tr>
+			<tr>
+				 <%= td_tag(text_field_tag 'bug_track[bug_id]', "") %> 
+			</tr>
+			<tr>
+				<td colspan="2"> <%= submit_tag("Update", :class => "add_button") %> 
+				<button class="jpopup_cancel_button" name="delete_bug_track">
+					Delete
+				</button> <%= jquery_jpopup_close_button("cancel", "active_edit_test_case_bug_track_cancel_button") %> </td>
+			</tr>
+		</table>
+	</form>
+</div>

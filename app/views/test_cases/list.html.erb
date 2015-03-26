@@ -1,0 +1,53 @@
+<% content_for(:left_sidebar) do %>
+  <div class="left_content_button_frame">
+    <%= left_button_tag('Add Test Case', :action => 'new') %>
+  </div>
+<% end %>
+
+<form id='form1' method='post' action='/test_cases/search'" >
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <%= td_tag(text_field_tag('key_words', @key_words, :size => '58', :style =>'height:21px')) %>
+      <%= td_tag(submit_button_search_tag('Search Test Case')) %>
+    </tr>
+  </table>
+</form>
+
+<br/>
+<br/>
+
+<table>
+  <tr>
+    <%= ths_tag('', 'Number', 'Percentage (%)') %>
+  </tr>
+  <tr>
+    <%= th_tag('Total') %>
+    <%= td_tag(@test_cases.size, :colspan => 2) %>
+  </tr>
+</table>
+
+<table bordercolor="#888888" border="1" width="712px">
+  <tr bgcolor="#efefef" style="font-weight:600">
+	  <%= td_tag('No.', :width => '3%') %>
+    <%= td_tag('Actions', :width => '7%') %>
+	  <%= td_tag(link_to("ID", :action => "list", :id => 0, :test_suite_id => @test_suite, "order_by[field]" => "id", "order_by[asc_desc]" => @order_by_asc_desc), :width => '6%') %>
+	  <%= td_tag(link_to("Name", :action => "list", :id => 0, :test_suite_id => @test_suite, "order_by[field]" => "name", "order_by[asc_desc]" => @order_by_asc_desc), :width => '38%') %>
+  </tr>
+
+  <% @test_cases.each_index do |index| %>
+    <% test_case = @test_cases[index] %>
+    <tr id='row <%= test_case.id %> '>
+		  <td> <%= index + 1 %> .</td>
+      <td>
+        <%= link_to_edit_test_case(test_case) %>
+        <%= link_to(image_tag('star.gif', :alt => 'star'), {:action => 'show', :id => test_case}, :popup => true) %>
+        <%= link_to(image_tag('delete.gif', :alt => 'delete'), {:action => 'delete', :id => test_case, :test_suite_id => @test_suite}, :confirm => "Are you sure to delete #{test_case.name} version #{test_case.version}?") if test_case.deletable? %>
+      </td>
+			<td> <%= test_case.id %> </td>
+			<td> <%= link_to(test_case.name, {:action => 'show', :id => test_case}) %> </td>
+    </tr>
+  <% end %>
+
+</table>
+
+<br/>

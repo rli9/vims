@@ -1,0 +1,84 @@
+<h1>Database Integrity Checking Results </h1>
+<h2>Weighted Test Results Data Checking</h2>
+
+<% if @wrong_weighted_test_target_instance_test_results && @wrong_weighted_test_target_instance_test_results.size > 0 %> 
+  <p style="color: red">
+  <%= @wrong_weighted_test_target_instance_test_results.size %> logic operation weighted test build test case test results error!
+  </p>
+  <table border="1">
+    <tr>
+      <td>id</td>
+      <td>test_case_id</td>
+      <td>test_target_instance_id</td>
+      <td>test_target_instance_id</td>
+      <td>test_results</td>
+    </tr>
+    <% @wrong_weighted_test_target_instance_test_results.each do |error_weighted_test_target_instance_results| %> 
+      <tr>
+        <td> <%= error_weighted_test_target_instance_results.id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_case_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_target_instance_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_target_instance_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.value %> </td>
+      </tr>
+    <% end %> 
+  </table>
+<% else %> 
+  <p style="color: green">
+    Weighted test build test results table doesn't have logic operation error !
+  </p>
+<% end %> 
+
+<% if @extra_weighted_test_results_error && @extra_weighted_test_results_error.size > 0 %> 
+  <p style="color: red">
+    weighted test build test case test results table has <%= @extra_weighted_test_results_error.size %> more test case test results than test build test case test results!
+  </p>
+  <table border="1">
+    <tr>
+      <td>id</td>
+      <td>test_case_id</td>
+      <td>test_target_instance_id</td>
+      <td>test_target_instance_id</td>
+      <td>test_results</td>
+    </tr>
+    <% @extra_weighted_test_results_error.each do |error_weighted_test_target_instance_results| %> 
+      <tr>
+        <td> <%= error_weighted_test_target_instance_results.id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_case_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_target_instance_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.test_target_instance_id %> </td>
+        <td> <%= error_weighted_test_target_instance_results.value %> </td>
+      </tr>
+    <% end %> 
+  </table>
+<% else %> 
+  <p style="color: green">
+    Weighted test build test results table doesn't have more test cases test results than test build test case test results!
+  </p>
+<% end %> 
+
+<% if @extra_test_target_instance_test_results_error && @extra_test_target_instance_test_results_error.size > 0 %> 
+  <p style="color: red">
+  <%= @extra_test_target_instance_test_results_error.size %> extra test build test results, error !
+  </p>
+  <table border="1">
+    <tr>
+      <td>test_results_id</td>
+      <td>test_case_id</td>
+      <td>test_target_instance_id</td>
+      <td>test_result</td>
+    </tr>
+    <% @extra_test_target_instance_test_results_error.each do |error_test_target_instance_test_results| %> 
+      <tr>
+        <td> <%= error_test_target_instance_test_results.id %> </td>
+        <td> <%= error_test_target_instance_test_results.test_case_id %> </td>
+        <td> <%= error_test_target_instance_test_results.test_target_instance_id %> </td>
+        <td> <%= error_test_target_instance_test_results.value %> </td>
+      </tr>
+    <% end %> 
+  </table>
+<% else %> 
+  <p style="color: green">
+    Test build test results doesn't have more test case test results than weighted test target instance test results !
+  </p>
+<% end %> 

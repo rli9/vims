@@ -1,0 +1,8 @@
+<%= td_tag(link_to_remote_delete(image_tag("delete.gif", :alt => 'delete'), "delete_test_result", test_result)) %>
+<%= tds_tag(test_result.test_case.name) %>
+<%= td_tag_test_data_result(test_result) %>
+
+<% hint='' %>
+
+<%= td_tag(hint) %>
+<%= td_tag(test_result.created_at) %>

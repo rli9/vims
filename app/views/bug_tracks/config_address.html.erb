@@ -1,0 +1,25 @@
+<% if @bug_configs && @bug_configs.size > 0 %> 
+  <% @url = @bug_configs[0].url %> 
+  <form id='formConfigAddress' method='post' action='/bug_tracks/update_config'" >
+    <%= hidden_field_tag 'bug_config_id', @bug_configs[0].id %> 
+    <table border='0' bordercolor='#888888'>
+      <tr>
+        <td>
+          Url: <%= td_tag(text_field_tag('url', @url, :size => '50', :style =>'height:21px')) %> 
+        </td>
+        <td> <%= submit_button_green_tag('Update') %> </td>
+      </tr>
+    </table>
+  </form>
+<% else %> 
+  <form id='formConfigAddress' method='post' action='/bug_tracks/create_config'" >
+    <table border='0' bordercolor='#888888'>
+      <tr>
+        <td>
+        Url: <%= td_tag(text_field_tag('url', @url, :size => '50', :style =>'height:21px')) %> 
+        </td>
+        <td> <%= submit_button_green_tag('Create') %> </td>
+      </tr>
+    </table>
+  </form>
+<% end %> 

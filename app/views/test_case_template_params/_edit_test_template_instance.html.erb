@@ -1,0 +1,27 @@
+<div id="edit_test_template_instance_box" class="jpopup_box">
+  <form id="edit_test_template_instance_form" method="post" action="/test_case_template_param_instances/update">
+    <script type="text/javascript">
+      $(function() {
+        $("#delete_test_case_template_param_instance").click(function(e) {
+          $("#edit_test_template_instance_form").attr("action", "/test_case_template_param_instances/delete")
+          $("#update_instance_button").click()
+        });
+      });
+    </script>
+    <%= hidden_field_tag 'id', "0" %> 
+    <table border='0' class="table_new_box_popup">
+      <tr>
+        <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Edit Test Template Instance</p></td>
+      </tr>
+      <tr>
+        <%= td_tag('Test Case Template Instance Name', :colspane => 2) %> 
+      </tr>
+      <tr>
+        <%= td_tag(text_field_tag 'test_case_template_param_instance[name]', "") %> 
+      </tr>
+      <tr>
+        <td colspan="3"> <%= submit_tag("Update", :class => "add_button", :id => "update_instance_button") %> <%= jquery_jpopup_close_button("Delete", "delete_test_case_template_param_instance") %> <%= jquery_jpopup_close_button("cancel", "active_edit_template_instance_cancel_button") %> </td>
+      </tr>
+    </table>
+  </form>
+</div>

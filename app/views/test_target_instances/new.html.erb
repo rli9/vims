@@ -1,0 +1,25 @@
+<div class="content_table">
+  <%= form_tag('/test_target_instances') do %>
+    <table border='0' bordercolor='#888888' id="table_new_case">
+      <tr>
+        <td colspan="3" class="table_title">Create New Build</td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left">Build Name <span class="span_red">*</span></td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left"> <%= text_field('test_target_instance', 'name', :size => 45) %> </td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left">Change List <span class="span_red">*</span></td>
+      </tr>
+      <tr>
+        <td colspan="3" align="left"> <%= text_field('test_target_instance', 'change_list_id', :size => 45) %> </td>
+      </tr>
+      <tr>
+        <td colspan="3"> <%= submit_button_green_tag("Create") %> <%= cancel_button_tag('Cancel', :controller => 'test_target_instances', :action => 'index') %> </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+

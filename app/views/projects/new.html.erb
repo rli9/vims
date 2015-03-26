@@ -1,0 +1,11 @@
+<%= form_tag('/projects') do %>
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <td><strong>Project Name</strong><%= text_field 'project', 'name' %></td>
+    </tr>
+    <tr>
+      <td><strong>Test Target Name</strong><%= text_field 'test_target', 'name' %></td>
+    </tr>
+	  <tr><%= td_tag(submit_button_green_tag("Create")) %></tr>
+  </table>
+<% end %>

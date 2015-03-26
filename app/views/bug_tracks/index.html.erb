@@ -1,0 +1,55 @@
+<p class="title">Bug Mapping</p>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Bug ID</th>
+      <th>Test Case Name</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bug_ids_bug_tracks.to_a.sort_by {|items| items[0]}.each do |items| %>
+      <% bug_id = items[0] %>
+      <% bug_tracks = items[1] %>
+
+      <% bug_tracks.each_with_index do |bug_track, index| %>
+        <tr>
+          <% if index == 0 %>
+            <td rowspan="<%= bug_tracks.size %>"><%= link_to(bug_id, "#{@bug_tracker_url}#{bug_id}", :target => "_blank") %></td>
+          <% end %>
+
+          <td><%= bug_track.test_case.name %></td>
+          <td><%= link_to 'Edit', edit_bug_track_path(bug_track) %></td>
+          <td><%= link_to 'Destroy', bug_track, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+<br />
+
+<h1>UNMAPPED BUGS</h1>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Bug ID</th>
+      <th>Desc</th>
+      <th>Reporter</th>
+      <th>Edit</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @unmapped_bugs.sort_by(&:bug_id).each do |bug| %>
+      <tr>
+        <td><%= link_to(bug.bug_id, "#{@bug_tracker_url}#{bug.bug_id}", :target => "_blank") %></td>
+
+        <td><%= bug.short_desc %></td>
+        <td><%= bug.profile.login_name %></td>
+        <td><%= link_to 'Edit', {controller: :bug_tracks, action: :new, 'bug_track[bug_id]' => bug.bug_id}, :target => "_blank" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

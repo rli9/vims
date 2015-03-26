@@ -1,0 +1,45 @@
+<h1> <%= @test_case_template.name %> </h1>
+<% top_colspan = @second_test_case_template.test_case_template_param_instances.size * @third_test_case_template.test_case_template_param_instances.size * @fourth_test_case_template.test_case_template_param_instances.size %> 
+<% first_colspan = @third_test_case_template.test_case_template_param_instances.size * @fourth_test_case_template.test_case_template_param_instances.size %> 
+<% @fifth_test_case_template_param_instances = @fifth_test_case_template.test_case_template_param_instances %> 
+<% for fifth_test_case_template_param_instance in @fifth_test_case_template_param_instances %> 
+  <table border="1">
+    <tr>
+      <td align="center" colspan=<%= top_colspan + 1 %> bgcolor="#ffffff"> <%= fifth_test_case_template_param_instance.name %> </td>
+    </tr>
+    <tr>
+      <td rowspan=<%= @test_case_templates.size - 2 %> bgcolor="#efefef"></td>
+      <% @test_case_template_param_instances = @second_test_case_template.test_case_template_param_instances %> 
+      <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+        <td align="center"  bgcolor="#efefef" colspan=<%= first_colspan %> >
+          <%= test_case_template_param_instance.name %> 
+        </td>
+      <% end %> 
+    </tr>
+    <tr>
+      <% @test_case_template_param_instances = @third_test_case_template.test_case_template_param_instances %> 
+      <% for i in 1..@second_test_case_template.test_case_template_param_instances.size %> 
+        <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+          <td align="center" bgcolor="#efefef" colspan=<%= @fourth_test_case_template.test_case_template_param_instances.size %> >
+            <%= test_case_template_param_instance.name %> 
+          </td>
+        <% end %> 
+        <% i %> 
+      <% end %> 
+    </tr>
+    <tr>
+      <% @test_case_template_param_instances = @fourth_test_case_template.test_case_template_param_instances.sort {|x, y| x.name.downcase <=> y.name.downcase} %> 
+      <% for_times = @second_test_case_template.test_case_template_param_instances.size * @third_test_case_template.test_case_template_param_instances.size %> 
+      <% for i in 1..for_times %> 
+        <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+          <td align="center" bgcolor="#efefef">
+            <%= test_case_template_param_instance.name %> 
+          </td>
+        <% end %> 
+        <% i %> 
+      <% end %> 
+    </tr>
+  </table>
+  <br/>
+<% end %> 
+

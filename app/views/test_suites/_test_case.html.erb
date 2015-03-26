@@ -1,0 +1,29 @@
+<tr>
+  <td colspan="4">
+    <% if session[:cut_case_ids] %>
+      <% if session[:cut_case_ids].include?(test_case.id.to_s) %>
+        <div class="test_case_list_label folder_case_alpha" test_case_id=<%= test_case.id %> rel="tooltip" title="<font color='red'><b><i>CreateDate:</i></b></font><br><a href='Test_link'>LinkTest</a>">
+      <% else %>
+        <div class="test_case_list_label " test_case_id=<%= test_case.id %> rel="tooltip" title="<font color='red'><b><i>CreateDate:</i></b></font> <br/> <br><a href='Test_link'>LinkTest</a>">
+      <% end %>
+    <% else %>
+      <div class="test_case_list_label " test_case_id=<%= test_case.id %> >
+    <% end %>
+      <table width="700px" border ="0">
+        <tr align="left">
+          <td width ="53px">
+            <%= check_box_tag("test_case_ids[]", test_case.id, false, :id => "checkbox_#{test_case.name}", :class => "check_box_class") %>
+          </td>
+          <td width="323px"  class="folder_style_class">
+            <%= test_case.name %>
+          </td>
+          <td width="127px"> <%= test_case.created_at.strftime("%m/%d/%y") %> | <%= link_to(image_tag('case_show.png', :alt => "Show Case"), :controller => "test_cases", :action => "show", :id => test_case.id) %> <%= link_to(image_tag('case_edit.png', :alt => "Edit Case"), :controller => "test_cases", :action => "edit", :id => test_case.id) %>
+            <%= link_to(image_tag('case_del.png', :alt => 'Delete'),
+                        {:controller=> 'test_cases', :action => 'delete', :id => test_case},
+                         :confirm => "Are you sure to delete #{test_case.name} version #{test_case.version}?") if test_case.deletable? %>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </td>
+</tr>

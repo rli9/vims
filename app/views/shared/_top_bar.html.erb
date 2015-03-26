@@ -1,0 +1,13 @@
+<% if @member %>
+  <div id="top_bar">
+    <div id="top_bar_right_area">
+      <div id="profile">
+        <p id="member_name">
+          <span id="member_name"> <%= @member.name %> </span>
+          | <%= link_to('Profile', :controller => 'members', :action => 'edit', :id => 0) %>
+          | <%= link_to('Logout', :controller => 'application', :action => 'logout') %>
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>

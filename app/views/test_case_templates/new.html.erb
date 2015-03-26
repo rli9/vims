@@ -1,0 +1,13 @@
+<% form_for(@test_case_template) do |f| %>
+  <p>
+    <%= f.label :name %>
+    <br />
+    <%= f.text_field :name %>
+  </p>
+  <%= hidden_field_tag 'test_case_template[test_target_id]', session[:test_target_id] %>
+  <p>
+    <%= submit_button_green_tag('Create') %> <%= cancel_button_tag 'Cancel', :controller => 'test_case_templates', :action => 'index' %>
+  </p>
+<% end %>
+
+

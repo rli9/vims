@@ -1,0 +1,13 @@
+<h1>Editing test_case_template</h1>
+<% form_for(@test_case_template) do |f| %>
+  <p>
+    <%= f.label :name %>
+    <br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+<%= link_to 'Show', @test_case_template %> |
+<%= link_to 'Back', test_case_templates_path %>

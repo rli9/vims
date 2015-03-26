@@ -1,0 +1,14 @@
+
+<div>
+  <div class ="suite_add" id="active_jpopup">Add Test Suite</div>
+  <% if params[:test_suite_id] %> 
+    <%= test_case_button_link "Add Test Case", :class => "case_add", :controller => 'test_cases', :action => 'new', :test_suite_id => @current_test_suite %> 
+    <div class ="case_cut_gray" id="folder_list_cut">Cut</div>
+    <% if session[:cut_case_ids] %> 
+      <div class ="case_paste" id="folder_list_paste" name=<%= params[:test_suite_id] %> >Paste</div>
+    <% else %> 
+      <div class ="case_paste_gray" id="folder_list_paste_gray">Paste</div>
+    <% end %> 
+    <div class ="case_cut_gray" id="folder_list_del">Del</div>
+  <% end %> 
+</div>

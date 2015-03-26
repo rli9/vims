@@ -1,0 +1,15 @@
+<pre>
+  <%= render(:partial => 'hi') %>
+  <table border='1' bordercolor='#888888'>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Remark</th>
+    </tr>
+    <tr>
+      <td> <%= @member.name %> </td>
+      <td> <%= @member.email %> </td>
+    </tr>
+  </table>
+  <%= render(:partial => 'signature') %>
+</pre>

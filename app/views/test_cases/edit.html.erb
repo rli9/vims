@@ -1,0 +1,80 @@
+<script type="text/javascript">
+	jQuery(function($) {
+	 $("#update_current_version").click(function () {
+	 			$("#create_or_update_version").attr("value", "false");
+				$("#edit_normal_test_case").submit();
+	 });
+	 $("#update_current_version_bottom").click(function () {
+	 			$("#create_or_update_version").attr("value", "false");
+				$("#edit_normal_test_case").submit();
+	 });
+	 $("#create_new_version").click(function () {
+	 			$("#create_or_update_version").attr("value", "true");
+				$("#edit_normal_test_case").submit();
+	 });
+	 $("#create_new_version_bottom").click(function () {
+	 			$("#create_or_update_version").attr("value", "true");
+				$("#edit_normal_test_case").submit();
+	 });
+      });
+
+</script>
+
+<%= form_tag('/test_cases/update/', :id=> "edit_normal_test_case") do %>
+	<input type="hidden" id="create_or_update_version" name="create_or_update_version" value="">
+  <table border='0' bordercolor='#888888' id="table_new_case">
+    <tr>
+      <td colspan="4" bgcolor="#ccc0da"><p class="table_title">Edit Case <span class="span_orange">( <%= @test_case.id %> )</span></p></td>
+    </tr>
+  	<tr>
+      <td colspan="3">
+        <%= test_case_submit_button_green_tag("Update Current Version", :id=>"update_current_version") %>
+      	<%= test_case_submit_button_green_tag("Create New Version", :id=>"create_new_version") %>
+      	<%= cancel_button_tag('Cancel', :controller => 'test_cases', :action => 'list', :id=>'0', :test_suite_id => @top_test_suites.first) %>
+      </td>
+    </tr>
+	  <tr>
+      <td colspan="3" height="20">  </td>
+    </tr>
+	</table>
+  <table border='1' bordercolor='#888888'>
+    <%= hidden_field_tag 'id', @test_case.id %>
+    <tr>
+      <th></th>
+      <th>Current</th>
+      <th>Update To</th>
+    </tr>
+    <tr>
+      <%= th_tag('Id') %>
+      <%= td_tag(@test_case.id, :class => 'grey') %>
+      <%= td_tag(@test_case.id) %>
+    </tr>
+    <tr>
+      <%= th_tag('Name') %>
+      <%= td_tag(@test_case.name, :class => 'grey') %>
+      <%= td_tag(text_field('test_case', 'name')) %>
+    </tr>
+    <tr>
+      <%= th_tag('Target') %>
+      <%= td_tag(@test_case.test_target.name, :class => 'grey') %>
+      <%= td_tag(@test_case.test_target.name) %>
+    </tr>
+  </table>
+  <br/>
+	<br/>
+	<table>
+    <tr>
+      <td colspan="3" height="20">  </td>
+    </tr>
+  	<tr>
+      <td colspan="3">
+        <%= test_case_submit_button_green_tag("Update Current Version", :id=>"update_current_version_bottom") %>
+      	<%= test_case_submit_button_green_tag("Create New Version", :id=>"create_new_version_bottom") %>
+      	<%= cancel_button_tag('Cancel', :controller => 'test_cases', :action => 'list', :id=>'0', :test_suite_id => @top_test_suites.first) %>
+	    </td>
+    </tr>
+	  <tr>
+      <td colspan="3" height="20">  </td>
+    </tr>
+	</table>
+<% end %>

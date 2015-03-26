@@ -1,0 +1,26 @@
+<%= form_tag('/test_cases/update_test_cases') do %>
+
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('No.') %>
+      <%= th_tag('Name') %>
+    <% end %>
+
+    <% @test_cases.each_index do |index| %>
+      <% test_case = @test_cases[index] %>
+      <% tr_tag do %>
+        <%= td_tag(index) %>
+        <% test_case_name = h(test_case.name).gsub(/\s/, '&nbsp;') %>
+        <%= td_tag(test_case_name) %>
+      <% end %>
+      <%= hidden_field_tag 'test_case_ids[]', test_case.id %>
+    <% end %>
+    <% tr_tag do %>
+      <%= th_tag('To Do', :colspan => 5) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(submit_button_green_tag("Update"), :colspan => 5) %>
+    <% end %>
+  <% end %>
+<% end %>
+<%= link_to 'cancel', :action => 'index' %>

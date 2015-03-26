@@ -1,0 +1,70 @@
+<div id="container_bg" style="height:680px">
+  <table width=94% align=center cellpadding=5 cellspacing=1>
+    <tr>
+      <td width=25% valign=top></td>
+      <td width=75% valign=top><!-- login box -->
+      <div id=login>
+        <form id="gaia_loginform" action="/login" method="post" >
+          <div id="gaia_loginbox" >
+            <table  class="form-noindent" cellspacing="3" cellpadding="5" width="51%" border="0" style="float:left;margin-right:10px">
+              <tr>
+                <td valign="top" style="text-align:center" nowrap="nowrap"
+                bgcolor="#f2f2f2">
+                <div class="loginBox" >
+                  <table id="gaia_table" align="center" border="0" cellpadding="1" cellspacing="0">
+                    <tr>
+                      <td colspan="2" align="center">
+                      <table>
+                        <tr>
+                          <td valign="top" colspan="2" class="gaia le lbl" style="font-weight:600;"> Login in</td>
+                        </tr>
+                      </table></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align="center"></td>
+                    </tr>
+                    <tr>
+                      <td nowrap="nowrap">
+                      <div align="right">
+                        <span class="gaia le lbl"> Account: </span>
+                      </div></td>
+                      <td>
+                      <input  type="text" name="member[name]"  id="Email" size="18" value=""  class='gaia le val'/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td align="left"></td>
+                    </tr>
+                    <tr>
+                      <td align="right" nowrap="nowrap"><span class="gaia le lbl"> Password: </span></td>
+                      <td>
+                      <input  type="password"
+                      name="member[password]" id="Passwd"
+                      size="18"   class="gaia le val" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td align="left"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                      <div style="color:red">
+                        <%= flash[:notice] %>
+                      </div>
+                      <input type="submit" class="gaia le button" name="signIn" value="Login" />
+                      <input type="button" class="gaia le button" name="signUp" value="Register" onClick ="parent.location='/members/new'"/>
+                      </td>
+                    </tr>
+                  </table>
+                </div></td>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </div>
+      <br/>
+  </table>
+</div>
+

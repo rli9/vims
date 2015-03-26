@@ -1,0 +1,239 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#report_detail_info').hide()
+    $("#button_toggle_result_info").toggle(function() {
+      $('#report_detail_info').show();
+      $(this).attr("class", "hide_button");
+      $(this).attr("value", "Hide Result Info")
+      return false;
+   }, function() {
+      $('#report_detail_info').hide();
+      $(this).attr("class", "show_button");
+      $(this).attr("value", "Show Result Info")
+      return false;
+   });
+     $('.active_map_multiple_bug_tracks_in_report').click(function() {
+      $('#overlay_add_bug_track_for_code_instance').fadeIn(50, function() {
+        $('#add_bug_track_for_code_instance').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+    $('#cancel_button').click(function() {
+      $('#add_bug_track_for_code_instance').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay_add_bug_track_for_code_instance').fadeOut(50);
+      });
+    });
+ });
+</script>
+
+<%= render :partial => "navigation", :locals => {:tc_step => "generate_test_report"} %>
+<br/>
+
+<table border="1">
+  <tr>
+    <%= ths_tag('Id', 'Test Target Instance', 'Change List') %>
+    <%= ths_tag_test_data_standard %>
+  </tr>
+  <tr>
+    <%= tds_tag(@test_target_instance.id, @test_target_instance.name, @test_target_instance.change_list_id) %>
+    <%= tds_tag_test_data_standard(@weighted_test_results) %>
+  </tr>
+</table>
+
+<br/>
+<div>
+  <table border="1">
+    <tr bgcolor="#efefef">
+      <th rowspan="2">Template</th>
+      <th rowspan="2">Pass</th>
+      <th rowspan="2">Fail</th>
+      <th rowspan="2">Pass Rate</th>
+      <td colspan="3">Compare to <%= @compare_test_target_instance ? @compare_test_target_instance.name : 'History' %></td>
+    </tr>
+
+    <tr bgcolor="#efefef">
+      <th>Fix</th><th>Regression</th><th>New Fail</th>
+    </tr>
+
+    <%
+      @test_case_templates_test_result_stats.keys.sort_by {|test_case_template| test_case_template.name.downcase}.each do |test_case_template|
+        test_result_stats = @test_case_templates_test_result_stats[test_case_template]
+
+        pass_test_results_count = test_result_stats[TestResult::TEST_TARGET_NEW_PASS] + test_result_stats[TestResult::TEST_TARGET_FIX] + test_result_stats[TestResult::TEST_TARGET_KEEP_PASS]
+        fail_test_results_count = test_result_stats[TestResult::TEST_TARGET_NEW_FAIL] + test_result_stats[TestResult::TEST_TARGET_REGRESSION] + test_result_stats[TestResult::TEST_TARGET_KEEP_FAIL]
+
+        fix_test_results_count = test_result_stats[TestResult::TEST_TARGET_FIX]
+        regression_test_results_count = test_result_stats[TestResult::TEST_TARGET_REGRESSION]
+        new_fail_test_results_count = test_result_stats[TestResult::TEST_TARGET_NEW_FAIL]
+
+        if pass_test_results_count + fail_test_results_count != 0
+    %>
+          <tr>
+            <td bgcolor="#efefef"> <%= test_case_template.name.downcase %> </td>
+            <td> <%= pass_test_results_count %> </td>
+            <td> <%= fail_test_results_count %> </td>
+            <td> <%= (pass_test_results_count.to_f * 100 / (pass_test_results_count + fail_test_results_count)).round(2) %> %</td>
+            <td> <%= fix_test_results_count %> </td>
+            <td> <%= regression_test_results_count %> </td>
+            <td> <%= new_fail_test_results_count %> </td>
+          </tr>
+        <% end %>
+    <% end %>
+  </table>
+</div>
+<br/>
+
+<table bordercolor="black" border="1">
+  <tr>
+    <td bgcolor='red' align='center' nowrap>R</td>
+    <td>Regression</td>
+  </tr>
+  <tr>
+    <td bgcolor='red' align='center' nowrap>NF</td>
+    <td>New Fail</td>
+  </tr>
+  <tr>
+    <td bgcolor='yellow' align='center' nowrap>KF</td>
+    <td>Keep Fail</td>
+  </tr>
+  <tr>
+    <td bgcolor='green' align='center' nowrap>F</td>
+    <td>Fix</td>
+  </tr>
+  <tr>
+    <td bgcolor='green' align='center' nowrap>NP</td>
+    <td>New Pass</td>
+  </tr>
+  <tr>
+    <td bgcolor='green' align='center' nowrap></td>
+    <td>Keep Pass</td>
+  </tr>
+  <tr>
+    <td bgcolor='grey' align='center' nowrap>CF</td>
+    <td>Case Fail</td>
+  </tr>
+  <tr>
+    <td align='center' nowrap></td>
+    <td>Not Run</td>
+  </tr>
+</table>
+<br/>
+
+<%
+  @test_case_templates_test_case_names.keys.sort_by {|test_case_template| test_case_template.name.downcase}.each do |test_case_template|
+    data = @test_case_templates_test_case_names[test_case_template]
+    test_case_template_param_matcheses = data.test_case_template_param_matcheses
+%>
+  <br/>
+  <div class="test_report">
+    <table border="1" width="<%= data.displayable_cols.count {|item| item} * 50 + 500 %>px">
+      <thead>
+        <tr bgcolor="#efefef">
+          <th style="width: 500px" rowspan="<%= test_case_template_param_matcheses.size > 1 ? test_case_template_param_matcheses.size - 1 : 1 %>"><%= test_case_template.name %></th>
+          <%
+            test_case_template_param_matcheses = test_case_template_param_matcheses[1..-1]
+
+            test_case_template_param_matcheses.each_with_index do |test_case_template_param_matches, index|
+              colspan = index != test_case_template_param_matcheses.size - 1 ? test_case_template_param_matcheses[index + 1..-1].inject(1) {|product, item| product * item.size} : 1
+
+              loop_times = index > 0 ? test_case_template_param_matcheses[0..index - 1].inject(1) {|product, item| product * item.size} : 1
+              0.upto(loop_times - 1) do |loop|
+                test_case_template_param_matches.each_with_index do |test_case_template_param_match, index2|
+                  start_index = loop * test_case_template_param_matches.size * colspan + index2 * colspan
+                  end_index = start_index + colspan - 1
+                  compressed_colspan = data.displayable_cols[start_index..end_index].count {|item| item == true}
+          %>
+                <% if compressed_colspan != 0 %>
+                  <th colspan="<%= compressed_colspan %>" style="width: <%= compressed_colspan * 50 %>px"><%= test_case_template_param_match %></th>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <% if index != test_case_template_param_matcheses.size - 1 %>
+              </tr><tr bgcolor="#efefef">
+            <% end %>
+          <% end %>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div class="test_report" style="overflow-y: scroll; max-height: 600px">
+    <table border="1" width="<%= data.displayable_cols.count {|item| item} * 50 + 500 %>px">
+      <thead>
+        <tr bgcolor="#efefef">
+          <% test_case_template_param_matcheses = data.test_case_template_param_matcheses %>
+          <th style="width: 500px" rowspan="<%= test_case_template_param_matcheses.size > 1 ? test_case_template_param_matcheses.size - 1 : 1 %>"></th>
+          <%
+            test_case_template_param_matcheses = test_case_template_param_matcheses[1..-1]
+
+            test_case_template_param_matcheses.each_with_index do |test_case_template_param_matches, index|
+              colspan = index != test_case_template_param_matcheses.size - 1 ? test_case_template_param_matcheses[index + 1..-1].inject(1) {|product, item| product * item.size} : 1
+
+              loop_times = index > 0 ? test_case_template_param_matcheses[0..index - 1].inject(1) {|product, item| product * item.size} : 1
+              0.upto(loop_times - 1) do |loop|
+                test_case_template_param_matches.each_with_index do |test_case_template_param_match, index2|
+                  start_index = loop * test_case_template_param_matches.size * colspan + index2 * colspan
+                  end_index = start_index + colspan - 1
+                  compressed_colspan = data.displayable_cols[start_index..end_index].count {|item| item == true}
+          %>
+                <% if compressed_colspan != 0 %>
+                  <th colspan="<%= compressed_colspan %>" style="width: <%= compressed_colspan * 50 %>px"></th>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <% if index != test_case_template_param_matcheses.size - 1 %>
+              </tr><tr bgcolor="#efefef">
+            <% end %>
+          <% end %>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% data.first_test_case_template_param_matches.each_with_index do |test_case_template_param_instance, index| %>
+          <tr style="display: table-row">
+            <td style="width: 500px; text-align: left; word-break: break-all"><%= test_case_template_param_instance %></td>
+            <% data.test_cases_test_results_matrix[index].each do |test_case, status| %>
+              <% if test_case %>
+                <% bug_tracks = @test_case_ids_bug_tracks[test_case.id] || [] %>
+                <% bug_track_ids = bug_tracks.select {|bug_track| bug_track.bug && bug_track.bug.bug_status != 'CLOSED'}
+                                             .map {|bug_track| link_to("#{bug_track.bug_id} (#{bug_track.bug.version})", "#{@bug_tracker_url}#{bug_track.bug_id}", :target => "_blank")}.join(' ').html_safe %>
+
+                <% case status %>
+                <% when TestResult::TEST_TARGET_NEW_FAIL %>
+                  <td bgcolor='red'>
+                    <%= link_to('NF', {controller: :bug_tracks, action: :new, 'bug_track[test_case_name]' => test_case.name}, :target => "_blank") %> <%= bug_track_ids %>
+                  </td>
+                <% when TestResult::TEST_TARGET_REGRESSION %>
+                  <td bgcolor='red'>
+                    <%= link_to('R', {controller: :bug_tracks, action: :new, 'bug_track[test_case_name]' => test_case.name}, :target => "_blank") %> <%= bug_track_ids %>
+                  </td>
+                <% when TestResult::TEST_TARGET_FIX %>
+                  <td bgcolor='green'>F <%= bug_track_ids %></td>
+                <% when TestResult::TEST_TARGET_KEEP_FAIL %>
+                  <td bgcolor='yellow'>
+                    <%= link_to('KF', {controller: :bug_tracks, action: :new, 'bug_track[test_case_name]' => test_case.name}, :target => "_blank") %> <%= bug_track_ids %>
+                  </td>
+                <% when TestResult::TEST_CASE_FAIL %>
+                  <td bgcolor='grey'>CF <%= bug_track_ids %></td>
+                <% when TestResult::TEST_TARGET_NEW_PASS %>
+                  <td bgcolor='green'>NP <%= bug_track_ids %></td>
+                <% when TestResult::TEST_TARGET_KEEP_PASS %>
+                  <td bgcolor='green'><%= bug_track_ids %></td>
+                <% else %>
+                  <td></td>
+                <% end %>
+              <% else %>
+                <td></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

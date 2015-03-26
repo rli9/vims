@@ -1,0 +1,46 @@
+<h1>Report</h1>
+<% first_colspan = @third_test_case_template.test_case_template_param_instances.size * @fourth_test_case_template.test_case_template_param_instances.size %> 
+<table border="1">
+  <tr>
+    <td rowspan=<%= @test_case_templates.size - 1 %> bgcolor="#efefef"></td>
+    <% @test_case_template_param_instances = @second_test_case_template.test_case_template_param_instances %> 
+    <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+      <td align="center"  bgcolor="#efefef" colspan=<%= first_colspan %> >
+        <%= test_case_template_param_instance.name %> 
+      </td>
+    <% end %> 
+  </tr>
+  <tr>
+    <% @test_case_template_param_instances = @third_test_case_template.test_case_template_param_instances %> 
+    <% for i in 1..@second_test_case_template.test_case_template_param_instances.size %> 
+      <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+        <td align="center" bgcolor="#efefef" colspan=<%= @fourth_test_case_template.test_case_template_param_instances.size %> >
+          <%= test_case_template_param_instance.name %> 
+        </td>
+      <% end %> 
+      <% i %> 
+    <% end %> 
+  </tr>
+  <tr>
+    <% @test_case_template_param_instances = @fourth_test_case_template.test_case_template_param_instances %> 
+    <% for_times = @second_test_case_template.test_case_template_param_instances.size * @third_test_case_template.test_case_template_param_instances.size %> 
+    <% for i in 1..for_times %> 
+      <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+        <td align="center" bgcolor="#efefef">
+          <%= test_case_template_param_instance.name %> 
+        </td>
+      <% end %> 
+      <% i %> 
+    <% end %> 
+  </tr>
+  <% @test_case_template_param_instances = @first_test_case_template.test_case_template_param_instances.sort {|x, y| x.name.downcase <=> y.name.downcase} %> 
+  <% for test_case_template_param_instance in @test_case_template_param_instances %> 
+    <tr>
+      <td align="center" bgcolor="#efefef">
+        <%= test_case_template_param_instance.name %> 
+      </td>
+    </tr>
+  <% end %> 
+</table>
+<br/>
+

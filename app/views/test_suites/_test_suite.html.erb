@@ -1,0 +1,23 @@
+<% total_test_cases = test_suite.total_recursive_latest_version_active_test_cases %> 
+  <tr>
+    <td colspan="4">
+      <div class="test_suite_label" test_suite_id=<%= test_suite.id %> >
+        <table width="700px" border ="0">
+          <tr align="left">
+            <td width ="53px"> 
+              <%= check_box_tag("test_suite_ids[]", test_suite.id, false, :id => "checkbox_#{test_suite.name}") %> 
+            </td>
+            <td width="350px"  class="folder_style_class">
+              <%= test_suite.name %> ( <%= total_test_cases %> )
+            </td>
+            <td width="208px" colspan="2"> 
+              <%= test_suite.created_at.strftime("%m/%d/%y") %> | <%= link_to(image_tag('case_show.png', :alt => "Show"), :controller => "test_cases", :action => "list", :test_suite_id => test_suite.id, :id => 0) %> <%= link_to(image_tag('case_edit.png', :alt => "Edit"), :controller => "test_suites", :action => "edit", :id => test_suite.id) %> 
+              <%= link_to(image_tag('case_del.png', :alt => 'Delete'), 
+                          {:controller=> 'test_suites', :action => 'delete', :id => test_suite}, 
+                           :confirm => "Are you sure to delete #{test_suite.name}?") if test_suite.deletable? %> 
+            </td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>

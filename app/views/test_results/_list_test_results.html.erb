@@ -1,0 +1,12 @@
+<% table_tag do %> 
+  <% tr_tag do %> 
+    <%= ths_tag('Test Target Instance', 'Change List') %> 
+    <%= ths_tag_test_data_standard %> 
+  <% end %> 
+
+  <% tr_tag do %> 
+    <%= tds_tag(@test_target_instance.name, @test_target_instance.change_list_id) %> 
+    <%= tds_tag_test_data_standard(WeightedTestResult.weighted_test_results(@test_results)) %> 
+  <% end %> 
+<% end %> 
+<br/>

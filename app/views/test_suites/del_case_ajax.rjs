@@ -1,0 +1,1 @@
+page.replace_html("test_suite_list", :partial => "folder_style", :object => @current_test_suite)

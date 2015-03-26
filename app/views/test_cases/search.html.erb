@@ -1,0 +1,32 @@
+<form id='formSearch' method='post' action='/test_cases/search'" >
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <td>
+      <%= td_tag(text_field_tag('key_word', @key_word, :size => '30', :style =>'height:21px')) %>
+      </td>
+       <td> <%= submit_button_search_tag('Search Test Case') %> </td>
+    </tr>
+  </table>
+</form>
+
+<br />
+
+<% if @test_cases %>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Test Case Name</th>
+        <th>View</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @test_cases.sort_by(&:name).each do |test_case| %>
+        <tr>
+          <td><%= test_case.name %></td>
+          <td><%= link_to 'View', test_case, :target => "_blank" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

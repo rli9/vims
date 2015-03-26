@@ -1,0 +1,26 @@
+<div id="bug_track_box" class="jpopup_box">
+  <form id="new_asso_bug_track" method="post" action="/bug_tracks/create">
+  <%= hidden_field_tag 'bug_track[test_case_id]', "0" %> 
+  <%= hidden_field_tag 'bug_track[test_target_id]', session[:test_target_id] %> 
+  <table border='0' class="table_new_box_popup">
+    <tr>
+      <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create New Bug Track</p></td>
+    </tr>
+    <tr>
+      <%= td_tag('Test Case Name', :colspane => 2) %> 
+    </tr>
+    <tr>
+    <td><input id="bug_track_name" name="bug_track[name]" type="text" value="" disabled="true" size="80"/></td><td></td>
+    </tr>
+    <tr>
+      <%= td_tag('Bug ID', :colspane => 2) %> 
+    </tr>
+    <tr>
+     <td><input id="bug_track_id" name="id" type="text" value="" size="80"/></td><td></td>
+    </tr>
+    <tr>
+     <td colspan="2"> <%= submit_tag("Create", :class => "add_button") %> <%= jquery_jpopup_close_button("cancel", "bug_track_cancel_button") %> </td>
+    </tr>
+  </table>
+</form>
+</div>

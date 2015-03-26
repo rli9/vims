@@ -1,0 +1,44 @@
+<% form_for(@test_suite) do |f| %>
+  <%= hidden_field_tag 'parent_test_suite_ids[]', @select_test_suite_id %>
+  <%= hidden_field_tag 'test_target_id', session[:test_target_id] %>
+  <table border='0' id="table_new_case">
+    <% if @select_test_suite_id %>
+      <% @select_test_suite = TestSuite.find(@select_test_suite_id) %>
+      <tr>
+        <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create Test Suite Under <span class="span_orange"> <%= @select_test_suite.name %> </span></p></td>
+      </tr>
+      <% tr_tag do %>
+        <%= td_tag([f.submit("Create", :class => "add_button"), cancel_button_tag('cancel', :action => 'folder_list', :id =>0, :test_suite_id => @select_test_suite_id)], :colspan => 2) %>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create Test Suite At <span class="span_orange">Root</span></p></td>
+      </tr>
+      <tr>
+        <%= td_tag([f.submit("Create", :class => "add_button"), cancel_button_tag('cancel', :action => 'folder_list', :id =>0)], :colspan => 2) %>
+      </tr>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag('Test Suite Name', :colspane => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(f.text_field 'name', :colspane => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag("", :colspane => 2) %>
+    <% end %>
+    <% if @select_test_suite_id %>
+      <% tr_tag do %>
+        <%= td_tag([f.submit("Create", :class => "add_button"), cancel_button_tag('cancel', :action => 'folder_list', :id =>0, :test_suite_id => @select_test_suite_id)], :colspan => 2) %>
+      <% end %>
+    <% else %>
+      <% tr_tag do %>
+        <%= td_tag([f.submit("Create", :class => "add_button"), cancel_button_tag('cancel', :action => 'folder_list', :id =>0)], :colspan => 2) %>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>
+
+
+
+

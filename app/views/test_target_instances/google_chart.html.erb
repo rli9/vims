@@ -1,0 +1,19 @@
+<%= render :partial => "navigation", :locals => {:tc_step => "generate_test_report"} %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<h3>Test case indicator @ Analyze Recent Ten Build</h3>
+<% @latest_ten_test_target_instance_status.keys.each do |item| %> 
+  <%= tag(:p) %> 
+  <h3> <%= @test_case_template_param_instances.select {|instance| instance.id.to_s == item}[0].name %> </h3>
+  <%= tag(:p) %> 
+  <%= tag(:p) %> 
+  <%= tag(:p) %> 
+  <%= analysis_recent_ten_build_R_NF(@latest_ten_test_target_instance_status[item]) %> 
+  <%= tag(:p) %> 
+  <%= tag(:p) %> 
+  <%= tag(:p) %> 
+  <%= tag(:p) %> 
+<% end %> 

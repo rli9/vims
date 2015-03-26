@@ -1,0 +1,23 @@
+<form id="new_asso_bug_track" method="post" action="/bug_tracks/create_by_test_case_names">
+  <%= hidden_field_tag 'bug_track[test_target_id]', session[:test_target_id] %>
+  <table border='0' class="table_new_box_popup">
+    <tr>
+      <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create New Bug Track</p></td>
+    </tr>
+    <tr>
+      <%= td_tag('Test Case Name', :colspan => 1) %>
+    </tr>
+    <tr>
+    	<%= td_tag(text_area_tag("bug_track[test_case_names]", "", :rows => 5, :class => "textarea_test_case_names"), :colspan => 5) %>
+    </tr>
+    <tr>
+      <%= td_tag('Bug ID', :colspane => 2) %>
+    </tr>
+    <tr>
+      <td><input size="52" id="bug_track_id" name="id" type="text" value="" size="80"/></td>
+    </tr>
+    <tr>
+      <td colspan="2"> <%= submit_tag("Create", :class => "add_button") %> <%= cancel_back_button_tag("cancel") %> </td>
+    </tr>
+  </table>
+</form>

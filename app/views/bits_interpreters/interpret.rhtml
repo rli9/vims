@@ -1,0 +1,112 @@
+<%= content_tag(:p, content_tag(:h3, @bits_interpreter.name)) %> 
+<%= content_tag(:p, h(@interpretion).gsub(/\n/, "<br></br>")) %> 
+<%= tag(:p) %> 
+<%= start_table_tag %> 
+  
+<% form_tag( {:action => 'bits_to_segments', :id => @bits_interpreter, :radix => 2}) do %> 
+  <tr>
+    <%= content_tag(:th, "Binary", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:td, fit_size(@bits, @bits_interpreter.length), :bgcolor => "silver") %> 
+  </tr>
+  <tr>
+    <%= content_tag(:th, submit_tag("Interpret" ), :bgcolor => "#9acd32") %> 
+    <td bgcolor='silver'>
+      <%= text_field_tag "bits", fit_size(@bits, @bits_interpreter.length), :size => @bits_interpreter.length * 2, :maxlength => @bits_interpreter.length %> 
+    </td>
+  </tr>
+<% end %> 
+  
+<% form_tag( {:action => 'bits_to_segments', :id => @bits_interpreter, :radix => 16}) do %> 
+  <tr>
+    <%= content_tag(:th, "Hex", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:td, fit_size(@bits.to_i(2).to_s(16), @bits_interpreter.length / 4), :bgcolor => "silver") %> 
+  </tr>
+  <tr>
+    <%= content_tag(:th, submit_tag("Interpret" ), :bgcolor => "#9acd32") %> 
+    <td bgcolor='silver'>
+      <%= text_field_tag "bits", fit_size(@bits.to_i(2).to_s(16), @bits_interpreter.length / 4), :size => @bits_interpreter.length * 2, :maxlength => @bits_interpreter.length %> 
+    </td>
+  </tr>
+<% end %> 
+<%= end_table_tag %> 
+
+<%= tag(:p) %> 
+<%= tag(:p) %> 
+<% form_tag( {:action => 'segments_to_bits', :id => @bits_interpreter}) do %> 
+  <%= start_table_tag %> 
+  <tr>
+  <% @bits_interpreter.bits_segments.reverse_each do |bs| %> 
+    <% unless bs.start_bit == bs.end_bit %> 
+      <%= content_tag(:th, "#{bs.start_bit}..#{bs.end_bit}", :bgcolor => '#9acd32') %> 
+    <% else %> 
+      <%= content_tag(:th, "#{bs.start_bit}", :bgcolor => '#9acd32') %> 
+    <% end %> 
+  <% end %> 
+  </tr>
+    
+  <tr>
+    <% @bits_interpreter.bits_segments.reverse_each do |bs| %> 
+      <% bits = @bits[-bs.start_bit - 1..-bs.end_bit - 1] %> 
+      <%= content_tag(:td, bits, :bgcolor => 'silver', :align => "center") %> 
+    <% end %> 
+  </tr>
+
+  <tr>
+    <% @bits_interpreter.bits_segments.reverse_each do |bs| %> 
+      <% bits = @bits[-bs.start_bit - 1..-bs.end_bit - 1] %> 
+      <td bgcolor='silver' align='center'>
+        <%= text_field_tag("bits_segment[#{bs.id}]", bits, :size => (bs.start_bit - bs.end_bit + 1) * 2, :maxlength => bs.start_bit - bs.end_bit + 1, :style => "text-align: center") %> 
+      </td>
+    <% end %> 
+  </tr>
+  <tr>
+    <td align='center' colspan= <%= @bits_interpreter.bits_segments.size %> bgcolor='silver'> <%= submit_tag("Interpret", :name => "submit_type") %> </td>
+  </tr>       
+  <%= end_table_tag %> 
+<% end %> 
+<%= tag(:p) %> 
+
+<% form_tag :action => 'segments_to_bits', :id => @bits_interpreter do %> 
+  <%= start_table_tag %> 
+  <tr>
+    <%= content_tag(:th, "Position", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:th, "Flag", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:th, "Bits", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:th, "Interpretion", :bgcolor => "#9acd32") %> 
+    <%= content_tag(:th, "Bits", :bgcolor => "#9acd32") %> 
+  </tr>
+  <% @bits_interpreter.bits_segments.reverse_each do | bs | %> 
+    <% bits = @bits[-bs.start_bit - 1..-bs.end_bit - 1] %>        
+    <tr>
+      <% unless bs.start_bit == bs.end_bit %> 
+        <%= content_tag(:td, "#{bs.start_bit}..#{bs.end_bit}", :bgcolor => "silver") %> 
+      <% else %> 
+        <%= content_tag(:td, "#{bs.start_bit}", :bgcolor => "silver") %> 
+      <% end %> 
+          
+      <%= content_tag(:td, bs.name, :bgcolor => "silver") %> 
+        
+      <%= content_tag(:td, bits, :bgcolor => "silver") %> 
+        
+      <% bits_value = bs.bits_values.detect { |bv| bv.bits == bits } %> 
+      <% unless bits_value.nil? %> 
+        <%= content_tag(:td, bits_value.description, :bgcolor => "silver") %> 
+      <% else %> 
+        <%= content_tag(:td, nil, :bgcolor => "silver") %> 
+      <% end %> 
+      <td bgcolor='silver'>
+        <% if bs.bits_values.size > 0 %> 
+          <%= select_tag("bits_segment[#{bs.id}]", options_for_select(bs.bits_values.collect { |bv| [ bv.bits + " - " + bv.description, bv.bits ] }, bits)) %> 
+        <% else %> 
+          <%= text_field_tag("bits_segment[#{bs.id}]", bits, :size => (bs.start_bit - bs.end_bit + 1) * 2, :maxlength => bs.start_bit - bs.end_bit + 1) %> 
+        <% end %> 
+      </td>    
+    </tr>
+  <% end %> 
+    
+  <tr>
+    <td align='center' colspan=5 bgcolor='silver'> <%= submit_tag("Interpret", :name => "submit_type") %> </td>
+  </tr>
+  <%= end_table_tag %> 
+<% end %> 
+  

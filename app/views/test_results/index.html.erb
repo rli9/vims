@@ -1,0 +1,21 @@
+<% table_tag do %>
+  <% tr_tag do %>
+    <%= ths_tag('', 'No.', 'To Do', 'Test Target Instance', 'Change List') %>
+    <%= ths_tag_test_data_standard %>
+  <% end %>
+
+  <% @test_target_instances.each_index do |test_target_instance_index| %>
+    <% test_target_instance = @test_target_instances[test_target_instance_index] %>
+    <%= "<tr id='#{test_target_instance.id}' class=#{(test_target_instance_index % 2) == 0 ? "odd" : "even"}>" %>
+    <%= td_tag(check_box_tag("test_target_instance_ids[]", test_target_instance.id)) %>
+    <%= td_tag(test_target_instance_index) %>
+    <%= td_tag(link_to(image_tag("test_case.gif", :alt => 'Test Case'), {:action => "list", :id => 0, :test_target_instance_id => test_target_instance.id}, :popup => true) +
+                      link_to(image_tag("edit.gif", :alt => 'edit'), {:action => "edit", :id => 0, :test_target_instance_id => test_target_instance.id}, :popup => true) +
+                      link_to(image_tag("heart.gif", :alt => 'test_report'), {:action => :report, :id => 0, :test_target_instance_id => test_target_instance}, :popup => true) +
+                      link_to(image_tag("indicator.gif", :alt => 'indicator_chart'), {:action => :indicator, :id => 0, :test_target_instance_id => test_target_instance}, :popup => true)
+    <%= tds_tag(test_target_instance.name, test_target_instance.change_list_id) %>
+    <%= tds_tag_test_data_standard(test_target_instance.weighted_test_results) %>
+    </tr>
+  <% end %>
+<% end %>
+<%= tag(:p) %>

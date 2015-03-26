@@ -1,0 +1,47 @@
+<form action="/members/update_info/0" method="post" enctype="multipart/form-data">
+  <table border='1' bordercolor='#888888'>
+    <tr>
+      <%= th_tag('Update User Information', :colspan =>2 ) %>
+    </tr>
+    <tr>
+      <th>*Name</th> <%= td_tag(text_field 'member', 'name') %>
+    </tr>
+    <tr>
+      <th>*Email</th> <%= td_tag(text_field 'member', 'email') %>
+    </tr>
+    <tr>
+      <th>Picture</th> <%= td_tag(file_field('picture', 'picture')) %>
+    </tr>
+    <tr>
+      <%= td_tag(submit_button_green_tag("Update"), :colspan => 2) %>
+    </tr>
+  </table>
+</form>
+<br>
+
+<br><br><br><br>
+<% if flash[:pswnotice] %>
+  <h3><p style="color: red"> <%= h flash[:pswnotice] %> </p></h3>
+<% end %> <br>
+
+<form action="/members/update_password/0" method="post" enctype="multipart/form-data">
+  <table border='1' bordercolor='#888888'>
+  	<% tr_tag do %>
+      <%= th_tag('Change Password', :colspan =>2 ) %>
+    <% end %>
+    <tr>
+      <th>*Old_Password</th>
+	    <td><input type="password" id="old_password" name="old_password" size=30></td>
+    </tr>
+    <tr>
+      <th>*New Password</th> <%= td_tag(password_field 'member', 'password') %>
+    </tr>
+    <tr>
+      <th>*Confirm Password</th>
+	    <td><input type="password" id="con_password" name="con_password" size=30></td>
+    </tr>
+    <tr>
+      <%= td_tag(submit_button_green_tag("Update"), :colspan => 2) %>
+    </tr>
+  </table>
+</form>

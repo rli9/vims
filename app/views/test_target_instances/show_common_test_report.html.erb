@@ -1,0 +1,15 @@
+<%= render :partial => "navigation", :locals => {:tc_step => "generate_test_report"} %> 
+<%= render :partial => 'show_test_report' %> 
+<br/>
+<br/>
+<%= link_to "Google Chart", {:controller => "test_target_instances", :action => "google_chart", :id => @test_target_instance.id}, :class =>"google_chart_link" %> 
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<% if @test_case_templates %> 
+  <%= render :partial => 'test_case_template', :collection => @test_case_templates %> 
+<% end %> 
+

@@ -1,0 +1,109 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#active_new_template').click(function() {
+      $('#overlay').fadeIn(50, function() {
+        $('#new_template_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+    $('#active_new_template_cancel_button').click(function() {
+      $('#new_template_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+    $('.active_edit_test_template_instance').click(function() {
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $("input[name='test_case_template_param_instance[name]']").attr("value", $(this).attr("name"))
+      $('#overlay').fadeIn(50, function() {
+        $('#edit_test_template_instance_box').animate({'top' : '150px'}, 1);
+      });
+    });
+
+    $('#active_edit_template_instance_cancel_button').click(function() {
+      $('#edit_test_template_instance_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+
+    $('.active_edit_test_template_parameter').click(function() {
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $("input[name='test_case_template_param[name]']").attr("value", $(this).attr("name"))
+
+      $('#overlay').fadeIn(50, function() {
+        $('#edit_test_template_parameter_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+
+    $('#active_edit_template_parameter_cancel_button').click(function() {
+      $('#edit_test_template_parameter_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+    $('.jpopup_add_instance_button').click(function() {
+      $("input[name='test_case_template_param_instance[test_case_template_param_id]']").attr("value", $(this).attr("id"))
+      $('#overlay').fadeIn(50, function() {
+        $('#new_test_template_parameter_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+    $('#active_new_template_instances_cancel_button').click(function() {
+      $('#new_test_template_parameter_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+  });
+</script>
+  <br/>
+  <%= link_to @test_case_template.name, edit_test_case_template_path(@test_case_template) %> |
+  <table border="1">
+    <tr>
+      <th>Param</th>
+      <th>Instance</th>
+      <th>Action</th>
+    </tr>
+    <% @test_case_template.test_case_template_params.each do |test_case_template_param| %>
+        <tr>
+          <td rowspan="2">
+            <div name="<%= test_case_template_param.name %>" class="active_edit_test_template_parameter" id=<%= test_case_template_param.id %> >
+              <%= test_case_template_param.name %>
+            </div>
+          </td>
+          <td>
+            <div class="jpopup_add_instance_button" name="<%= test_case_template_param.name %>" id=<%= test_case_template_param.id %> >
+              New Instances
+            </div>
+          </td>
+          <td rowspan="2">
+            <%= link_to('Move Up |', {controller: "test_case_template_params", action: "move_up", id: test_case_template_param.id}, data: {confirm: 'Are you sure?'}) if test_case_template_param.seq > 0 %>
+            <%= link_to('Move Down |', {controller: "test_case_template_params", action: "move_down", id: test_case_template_param.id}, data: {confirm: 'Are you sure?'}) if test_case_template_param.seq < @test_case_template.test_case_template_params.size - 1 %>
+            <%= link_to('| Destroy', {controller: "test_case_template_params", action: "delete", id: test_case_template_param.id}, data: {confirm: 'Are you sure?'})%>
+          </td>
+        </tr>
+      <% end %>
+    <tr>
+      <td colspan="3">
+        <%= form_for(TestCaseTemplateParam.new) do |f| %>
+          <%= hidden_field_tag 'test_case_template_param[test_case_template_id]', @test_case_template.id %>
+          <%= f.text_field 'name' %>
+          <%= f.submit("New Parameter", :class => "jpopup_add_button") %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+
+<%= render :partial => 'test_case_template_params/edit_test_template_instance' %>
+<%= render :partial => 'test_case_template_params/edit_test_template_parameter' %>
+<%= render :partial => 'test_case_template_params/new_test_template_parameter' %>
+<div id="overlay" class="overlay" > </div>

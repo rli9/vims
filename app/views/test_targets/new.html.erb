@@ -1,0 +1,15 @@
+<% form_for(@test_target) do |f| %>
+  <% table_tag do %>
+	  <% tr_tag do %>
+      <%= th_tag('Name') %>
+    <% end %>
+	  <% tr_tag do %>
+		  <%= td_tag(text_field 'test_target', 'name') %>
+	  <% end %>
+  <% end %>
+  <p>
+    <%= submit_button_green_tag('Create') %> <%= cancel_button_tag 'Cancel', :controller => 'test_targets', :action => 'index' %>
+  </p>
+<% end %>
+
+

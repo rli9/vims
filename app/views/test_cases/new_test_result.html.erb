@@ -1,0 +1,25 @@
+<%= form_tag("/test_cases/create_test_result/#{@test_case.id}") do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('Test Case', :rowspan => 2) %>
+      <%= th_tag('Test Target Instance', :rowspan => 2) %>
+      <%= th_tag('Test Target', :colspan => 2) %>
+      <%= th_tag('Test Tase', :colspan => 1) %>
+      <%= th_tag('Create', :rowspan => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= th_tag('Pass') %>
+      <%= th_tag('Fail') %>
+      <%= th_tag('Fail') %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= td_tag(@test_case.name) %>
+      <%= td_tag(select('test_result', 'test_target_instance_id', @test_target_instances.collect {|item| [item.name, item.id]})) %>
+      <%= td_tag(text_field('test_result', 'test_target_pass', :size => 3)) %>
+      <%= td_tag(text_field('test_result', 'test_target_fail', :size => 3)) %>
+      <%= td_tag(text_field('test_result', 'test_case_fail', :size => 3)) %>
+      <%= td_tag(submit_button_green_tag('Create')) %>
+    <% end %>
+  <% end %>
+<% end %>

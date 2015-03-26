@@ -1,0 +1,26 @@
+<div id="ProjectList">
+  <div id="ProjectListTitle">
+    Projects
+  </div>
+  <% for project in @projects %>
+    <div class="ProjectItem">
+      <div id="project_left_content">
+        <div class="project_green_square"></div>
+      </div>
+
+      <div id="project_right_content">
+        <div id="ProjectNameLink">
+          <%= link_to(project.name, {:controller => 'projects', :action => 'manage', :id => project}) %>
+        </div>
+
+        <div id="ProjectDetail">
+          <%= project.test_target.name %> | <%= project.creator ? project.creator.name : '' %> | <%= project.created_at.strftime("%m/%d/%Y") %>
+          <% if project.created_by?(@member) %>
+            <%= link_to('| Edit', {:action => 'edit', :id => project}) %>
+            <%= link_to('| Delete', {:action => 'delete', :id => project}, :confirm =>"Are you sure to delete #{project.name}?", :method => :delete) if project.deletable? %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

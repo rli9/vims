@@ -1,0 +1,38 @@
+<form id='formSearch' method='post' action='/test_suites/search'" >
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <td>
+        Name: <%= td_tag(text_field_tag('key_words', @key_words, :size => '28', :style =>'height:21px')) %> 
+      </td>
+      <td> <%= submit_button_search_tag('Search Test Case') %> </td>
+    </tr>
+  </table>
+</form>
+<form action="" id="form_folder_list" method="post">
+  <%= hidden_field_tag 'test_suite_id', params[:test_suite_id] %> 
+  <%= render :partial => "toolbar" %> 
+  <table width="700px" border="0">
+    <tr>
+      <td width="1px" height="10px" class="folder_style_class_top_column"></td>
+      <td width="29px" class="folder_style_class_top_column"></td>
+      <td width="381px"  class="folder_style_class_top_column">&nbsp;&nbsp;&nbsp;&nbsp
+         <%= link_to(show_order_img(@order_by_for_back), :action => "folder_list", :id => 0, :test_suite_id => @current_test_suite, "order_by[direction]" => @order_by_for_back, "order_by[sort]" => @old_order_by_asc_desc) %> 
+      </td>
+      <td width="110px" class="folder_style_class_top_column"></td>
+      <td width="69px" class="folder_style_class_top_column"></td>
+    </tr>
+    <tr>
+      <td width="1px" height="30px" class="folder_style_class_top_column"></td>
+      <td width="29px" class="folder_style_class_top_column"> <%= check_box_tag("select_all_checkbox") %> </td>
+      <td width="381px"  class="folder_style_class_top_column">Name <%= link_to(show_order_img(@order_by_asc_desc), :action => "folder_list", :id => 0, :test_suite_id => @current_test_suite, "order_by[direction]" => @old_order_by_for_back, "order_by[sort]" => @order_by_asc_desc) %> </td>
+      <td width="110px" class="folder_style_class_top_column">Date | Action</td>
+      <td width="69px" class="folder_style_class_top_column">Execution</td>
+    </tr>
+    <% if @test_suites %> 
+      <%= render :partial => "test_suite", :collection => @test_suites %> 
+    <% end %> 
+    <% if @test_cases %> 
+      <%= render :partial => "test_case", :collection => @test_cases %> 
+    <% end %> 
+  </table>
+</form>

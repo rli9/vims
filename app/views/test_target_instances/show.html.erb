@@ -1,0 +1,20 @@
+<%= render :partial => "navigation", :locals => {:tc_step => "overview"} %>
+<table>
+  <tr>
+    <%= th_tag('Task Name') %>
+    <%= td_tag(@test_target_instance.name) %>
+  </tr>
+  <tr>
+    <%= th_tag('Creator') %>
+    <%= td_tag(@test_target_instance.creator.nil? ? '' : @test_target_instance.creator.name) %>
+  </tr>
+  <tr>
+    <%= th_tag('Created At') %>
+    <%= td_tag(@test_target_instance.created_at.strftime("%m/%d/%Y")) %>
+  </tr>
+  <tr>
+    <%= th_tag('Remark') %>
+    <%= td_tag('' ) %>
+  </tr>
+</table>
+

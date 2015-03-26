@@ -1,0 +1,64 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.active_edit_test_template_parameter').click(function() {
+      $("input[name='id']").attr("value", $(this).attr("id"))
+      $("input[name='test_case_template_param[name]']").attr("value", $(this).attr("name"))
+
+      $('#overlay').fadeIn(50, function() {
+        $('#edit_test_template_parameter_box').animate( {
+          'top' : '150px'
+        }, 1);
+      });
+    });
+
+    $('#active_edit_template_parameter_cancel_button').click(function() {
+      $('#edit_test_template_parameter_box').animate( {
+        'top' : '-500px'
+      }, 1, function() {
+        $('#overlay').fadeOut(50);
+      });
+    });
+  });
+</script>
+
+<br/>
+<table border="0">
+  <tr>
+    <%=
+      html = [td_tag(link_to @test_case_template.name, edit_test_case_template_path(@test_case_template))]
+      html += @test_case_template.test_case_template_params.map do |test_case_template_param|
+        <<-EOF
+          <td>
+            <div name=\"#{test_case_template_param.name}\" class=\"active_edit_test_template_parameter\" id=#{test_case_template_param.id}>
+              #{test_case_template_param.name}
+            </div>
+          </td>
+        EOF
+      end
+
+      raw(html.join(td_tag('_')))
+    %>
+
+    <td rowspan=2>
+      <%= form_for(TestCaseTemplateParam.new) do |f| %>
+        <%= hidden_field_tag 'new_test_case_template_param[test_case_template_id]', @test_case_template.id %>
+        <%= text_field_tag 'new_test_case_template_param[name]' %>
+        <%= f.submit("New Parameter", :class => "jpopup_add_button") %>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <%=
+      html = [td_tag]
+      html += @test_case_template.test_case_template_params.map do |test_case_template_param|
+        td_tag(link_to(image_tag('trash_16.gif'), {controller: "test_case_template_params", action: "delete", id: test_case_template_param.id}, data: {confirm: 'Are you sure?'}))
+      end
+
+      raw(html.join(td_tag))
+    %>
+  </tr>
+</table>
+
+<%= render :partial => 'test_case_template_params/edit_test_template_parameter' %>
+<div id="overlay" class="overlay" > </div>

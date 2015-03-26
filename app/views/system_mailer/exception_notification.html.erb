@@ -1,0 +1,9 @@
+A <%= @exception.class %> occurred in <%= @controller.controller_name %> # <%= @controller.action_name %> :
+ <%= @exception.message %> 
+	
+-------------------------------
+Request Information
+-------------------------------
+  * URL: <%= @request.protocol %> <%= @host %> <%= @request.request_uri %> 
+  * Parameters: <%= @request.parameters.inspect %> 
+	* Rails root: <%= @rails_root %> 

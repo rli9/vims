@@ -1,0 +1,20 @@
+<%= render :partial => "navigation", :locals => {:tc_step => "input_test_result"} %>
+"Code is rewriting"
+
+<div id=accordion0 style="width:49%;float:left">
+  <% @top_test_suites.each do |top_test_suite| %>
+    <% test_case_schedulers = @test_target_instance.find_test_target_instance_test_case_schedulers_by_test_suite(top_test_suite) %>
+    <% next if test_case_schedulers.empty? %>
+    <h3> <%= link_to(test_progress_chart_of_test_case_schedulers(test_case_schedulers, top_test_suite.name), {:controller => 'test_target_instances', :action => 'edit_results_test_page', :id => @test_target_instance, :test_suite_id => top_test_suite}, :popup => true) %> </h3>
+    <div></div>
+  <% end %>
+</div>
+<div id=accordion1 style="width:49%;float:right">
+<% @test_target_instance.members.each do |member| %>
+  <% test_case_schedulers = @test_target_instance.find_test_target_instance_test_case_schedulers_by_member(member) %>
+  <% next if test_case_schedulers.empty? %>
+  <h3> <%= link_to(test_progress_chart_of_test_case_schedulers(test_case_schedulers, member.name), {:action => 'edit_results_test_page', :id => @test_target_instance, :member_id => member.id}, :popup => true) %> </h3>
+  <div></div>
+<% end %>
+</div>
+

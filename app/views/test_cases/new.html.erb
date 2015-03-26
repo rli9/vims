@@ -1,0 +1,47 @@
+  <div class="content_table">
+    <%= form_tag('/test_cases/create') do %>
+      <%= hidden_field_tag "test_case_type", @test_case[:type] %>
+      <%= hidden_field_tag 'test_case[test_target_id]', session[:test_target_id] %>
+      <%= hidden_field_tag 'test_suite_ids[]', @select_test_suite.id %>
+      <table border='0' bordercolor='#888888' id="table_new_case">
+        <% if  @select_test_suite %>
+          <tr>
+            <td colspan="3" bgcolor="#ccc0da"><p class="table_title">Create Normal Test Case Under <span class="span_orange"> <%= @select_test_suite.name %> </span></p></td>
+          </tr>
+          <% tr_tag do %>
+            <%= td_tag([submit_button_green_tag('Create'), cancel_button_tag('cancel', :controller => "test_suites", :action => 'folder_list', :id =>0, :test_suite_id => @select_test_suite.id)], :colspan => 3) %>
+          <% end %>
+        <% end %>
+        <tr>
+          <td colspan="3" align="left">Name <span class="span_red">*</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="left"> <%= text_field('test_case', 'name', :size => 45) %> </td>
+        </tr>
+        <tr>
+          <td colspan="3"></td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <td colspan="3" height="20">  </td>
+        </tr>
+        <% tr_tag do %>
+          <%= td_tag([submit_button_green_tag('Create'), cancel_button_tag('cancel', :controller => "test_suites", :action => 'folder_list', :id =>0, :test_suite_id => @select_test_suite.id)], :colspan => 3) %>
+        <% end %>
+    	    <tr>
+          <td colspan="3" height="20">  </td>
+        </tr>
+    	</table>
+  	<% end %>
+  </div>
+<% end %>
+
+
+
+
+
+
+
+

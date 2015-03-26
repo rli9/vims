@@ -1,0 +1,104 @@
+<script type="text/javascript">
+jQuery(function($) {
+	$(".bug_test_case_list_label").hover(
+	  function() {
+		  $(this).addClass("blue_border");
+		},
+		function() {
+		  $(this).removeClass("blue_border");
+	  }
+	);
+	
+  $(".bug_test_case_list_label").toggle(
+    function () {
+		  $(".bug_test_case_list_label").removeClass("darkblue_border");
+		  $(this).addClass("darkblue_border");
+    },
+    function () {
+		  $(".bug_test_case_list_label").removeClass("darkblue_border");
+		  $(this).addClass("darkblue_border");
+    }
+  );
+
+  $(".bug_test_case_list_label").dblclick(
+    function() {
+      $("input[name='bug_track[test_case_id]']").attr("value", $(this).attr("test_case_id"))
+      $("input[name='bug_track[name]']").attr("value", $(this).attr("name"))
+      $('#overlay').fadeIn(50, 
+        function () {
+          $('#bug_track_box').animate( { 'top': '150px' }, 1);
+        }
+      );
+      $("#bug_track_id").focus();
+    }
+  );
+  
+  $('#bug_track_cancel_button').click(
+    function () {
+      $('#bug_track_box').animate( { 'top': '-500px' }, 1, 
+        function () {
+          $('#overlay').fadeOut(50);
+        }
+      );
+    }
+  );
+  
+  $("#folder_list_paste").click(
+    function() {
+      location.href ="../../test_cases/paste/" + $(this).attr("name");
+    }
+  );
+});
+</script>
+
+<form id='formSearch' method='post' action='/bug_tracks/search'" >
+  <table border='0' bordercolor='#888888'>
+    <tr>
+      <td>
+      Name: <%= td_tag(text_field_tag('key_words', @key_words, :size => '28', :style =>'height:21px')) %> 
+      </td>
+       <td> <%= submit_button_search_tag('Search Test Case') %> </td>
+    </tr>
+  </table>
+</form>
+<div id="test_suite_list">
+  <table width = "850px" border ="0">
+    <tr>
+      <td width="38px" height="10px" class="folder_style_class_top_column"></td>
+      <td width="450px"  class="folder_style_class_top_column">  </td>
+      <td width="350px" class="folder_style_class_top_column"></td>
+    </tr>
+    <tr>
+      <td width="38px" height="30px" class="folder_style_class_top_column"></td>
+      <td width="450px"  class="folder_style_class_top_column">Name  </td>
+      <td width="350px" class="folder_style_class_top_column">Bug Track</td>
+    </tr>
+    <% if @test_cases %> 
+      <% @test_cases.each do |test_case| %> 
+         <tr>
+          <td colspan="3">
+             <div name=<%= test_case.name %> class="bug_test_case_list_label" test_case_id=<%= test_case.id %> >
+              <table width="800px" border ="0">
+                <tr align="left">
+                  <td width ="35px"></td>
+                  <td width="450px" > <%= test_case.name %> </td>
+                  <td width="350px"> 
+                    <% @test_case_bug_tracks = test_case.bug_tracks %> 
+                    <% if @test_case_bug_tracks && @test_case_bug_tracks.size>0 %> 
+                      <%= render :partial => "test_case_bug_track", :collection => @test_case_bug_tracks %> 
+                    <% end %> 
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+       <% end %> 
+    <% end %> 
+  </table>
+</div>
+<br/>
+
+<%= render :partial => 'new_asso_bug_track' %> 
+<div id="overlay" class="overlay" >
+</div>

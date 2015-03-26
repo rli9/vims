@@ -1,0 +1,19 @@
+<div id="new_template_box" class="jpopup_box">
+  <%= form_for(@test_case_template) do |f| %>
+    <%= hidden_field_tag 'test_case_template[test_target_id]', session[:test_target_id].to_s.strip %>
+    <table border='0' class="table_new_box_popup">
+      <tr>
+        <td colspan="2" bgcolor="#ccc0da"><p class="table_title">Create Test Template in Project <span class="span_orange"> <%= @project.name if @project %> </span></p></td>
+      </tr>
+      <tr>
+        <%= td_tag('Test Case Template Name', :colspane => 2) %>
+      </tr>
+      <tr>
+        <%= td_tag(f.text_field 'name', :colspane => 2) %>
+      </tr>
+      <tr>
+        <td colspan="2"> <%= submit_tag("Create", :class => "add_button") %> <%= jquery_jpopup_close_button("cancel", "active_new_template_cancel_button") %> </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

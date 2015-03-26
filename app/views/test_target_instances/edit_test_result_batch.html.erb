@@ -1,0 +1,102 @@
+<script type="text/javascript">
+  $(function() {
+    $("#update_rs_test_cases").click(function () {
+      $("#result_test_case_names").attr("action", "/test_target_instances/create_test_results_by_test_case_names").submit();
+    });
+    $("#del_rs_test_cases").click(function(e) {
+			$('#overlay_delete_test_results_by_name').fadeIn(10, function() {
+				$('#delete_test_results_box').animate( {
+					'top' : '150px'
+				}, 1);
+			});
+  	});
+
+    $('#delete_test_results_button').click(function(e) {
+      $("#result_test_case_names").attr("action", "/test_target_instances/delete_test_results_by_test_case_names").submit();
+    });
+    $('#delete_test_results_cancel_button').click(function(e) {
+    	$('#delete_test_results_box').animate( {
+  				'top' : '-500px'
+  			}, 1, function() {
+  				$('#overlay_delete_test_results_by_name').fadeOut(50);
+  		});
+  	});
+ });
+</script>
+
+<div id="overlay_delete_test_results_by_name" class="overlay" >
+	<div id="delete_test_results_box" name="delete_test_results_box" class="jpopup_box">
+		<table border='0' class="table_new_box_popup">
+  	  <tr>
+  	    <td style=" padding-left: 50px">
+  	      <p style=" color: red"> Are you sure to delete these cases test results ?</p>
+  	    </td>
+  	  </tr>
+  	  <tr>
+  	    <td style=" padding-left: 180px">
+  	      <button class="add_button" name="delete_test_results_button" id="delete_test_results_button">Yes</button>
+  	      <%= jquery_jpopup_close_button("No", "delete_test_results_cancel_button") %>
+  	    </td>
+  	  </tr>
+	  </table>
+	</div>
+</div>
+
+<% if @unimpacted_test_case_names && !@unimpacted_test_case_names.empty? %>
+  <h3>
+    <p style="color: red;text-align:center;">
+      <% @unimpacted_test_case_names.each do |test_case_name| %>
+        <%= test_case_name %>
+        <br/>
+      <% end %>
+    </p>
+  </h3>
+<% end %>
+
+<%= render :partial => "navigation", :locals => {:tc_step => "batch_test_result"} %>
+
+<div id="tabs" style="width: 710px; height:100%">
+    <form action="/test_target_instances/create_test_results_by_test_case_names" method="post" id="result_test_case_names">
+      <%= hidden_field_tag 'id', @test_target_instance.id %>
+      <%= hidden_field_tag 'test_target_instance_name', @test_target_instance.name %>
+      <%= hidden_field_tag 'member_id', @member.id %>
+      <table border='1'>
+        <tr>
+          <%= th_tag('Test Case Names', :colspan => 3) %>
+        </tr>
+        <tr>
+          <%= td_tag(text_area_tag("test_case_names", @test_case_names, :rows => 5, :class => "textarea_test_case_names"), :colspan => 3) %>
+        </tr>
+
+        <tr>
+          <%= th_tag('Test Target', :colspan => 2) %>
+          <%= th_tag('Test Case', :colspan => 1) %>
+        </tr>
+
+        <tr>
+          <%= th_tag('Pass') %>
+          <%= th_tag('Fail') %>
+          <%= th_tag('Fail') %>
+        </tr>
+
+        <tr>
+          <td><%= radio_button_tag('test_result[value]', TestResult::TEST_TARGET_PASS, true) %></td>
+          <td><%= radio_button_tag('test_result[value]', TestResult::TEST_TARGET_FAIL, false) %></td>
+          <td><%= radio_button_tag('test_result[value]', TestResult::TEST_CASE_FAIL, false) %></td>
+        </tr>
+
+        <tr>
+          <td colspan="3">
+       	    Change Set<%= text_field_tag("test_results[changeset]")%>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <%= test_case_submit_button_green_tag("Update Result", :id => "update_rs_test_cases") %>
+            <%= test_case_submit_button_red_tag("Delete Result", :id => "del_rs_test_cases") %>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<% form_for(@test_target) do |f| %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('ID') %>
+      <%= th_tag('Name') %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(@test_target.id) %>
+      <%= td_tag(f.text_field 'name', :size => @test_target.name.size) %>
+    <% end %>
+  <% end %>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+<%= link_to 'Back', test_targets_path %>
+
+

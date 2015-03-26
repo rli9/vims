@@ -1,0 +1,95 @@
+<%= form_tag('/test_results/update') do %>
+  <% table_tag do %>
+
+    <% tr_tag do %>
+      <%= th_tag('test case names', :rowspan => 2) %>
+      <%= th_tag('test target', :colspan => 2) %>
+      <%= th_tag('Test Case', :colspan => 1) %>
+      <%= th_tag('To Do', :rowspan => 2) %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= th_tag('pass') %>
+      <%= th_tag('fail') %>
+      <%= th_tag('fail') %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= td_tag(text_area_tag("test_case_names", @test_case_names, :rows => 10, :col => 80)) %>
+      <%= td_tag(text_field_tag('default_test_target_pass', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_target_fail', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_case_fail', 0, :size => 3)) %>
+      <%= td_tag(submit_button_green_tag('Add Test Results', :name => 'edit_type')) %>
+      <%= hidden_field_tag 'test_target_instance_id', @test_target_instance.id %>
+    <% end %>
+
+  <% end %>
+<% end %>
+<br/>
+
+<%= form_tag('/test_results/update') do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('result collection name') %>
+      <%= th_tag('To Do') %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(text_field_tag('result_summary_name')) %>
+      <%= td_tag(submit_button_green_tag('import test results', :name => 'edit_type')) %>
+      <%= hidden_field_tag 'test_target_instance_id', @test_target_instance.id %>
+    <% end %>
+  <% end %>
+<% end %>
+<br/>
+
+<%= form_tag('/test_results/update') do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('Test Suite', :rowspan => 2) %>
+      <%= th_tag('test execution type', :rowspan => 2) %>
+      <%= th_tag('test target', :colspan => 2) %>
+      <%= th_tag('Test Case', :colspan => 1) %>
+      <%= th_tag('To Do', :rowspan => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= th_tag('pass') %>
+      <%= th_tag('fail') %>
+      <%= th_tag('fail') %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(select('test_suite', 'id', @test_suites.collect {|test_suite| [test_suite.name, test_suite.id]}, { :include_blank => true })) %>
+      <%= td_tag(text_field_tag('default_test_target_pass', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_target_fail', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_case_fail', 0, :size => 3)) %>
+      <%= td_tag(submit_button_green_tag('add test results by test suite', :name => 'edit_type')) %>
+      <%= hidden_field_tag 'test_target_instance_id', @test_target_instance.id %>
+    <% end %>
+  <% end %>
+<% end %>
+<br/>
+
+<%= form_tag('/test_results/update') do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('test target', :colspan => 2) %>
+      <%= th_tag('Test Case', :colspan => 1) %>
+      <%= th_tag('To Do', :rowspan => 2) %>
+    <% end %>
+    <% tr_tag do %>
+      <%= th_tag('pass') %>
+      <%= th_tag('fail') %>
+      <%= th_tag('fail') %>
+    <% end %>
+
+    <% tr_tag do %>
+      <%= td_tag(text_field_tag('default_test_target_pass', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_target_fail', 0, :size => 3)) %>
+      <%= td_tag(text_field_tag('default_test_case_fail', 0, :size => 3)) %>
+      <%= td_tag(submit_button_green_tag('add test results by hsd ids', :name => 'edit_type')) %>
+      <%= hidden_field_tag 'test_target_instance_id', @test_target_instance.id %>
+    <% end %>
+  <% end %>
+<% end %>
+<br/>
+
+<%= link_to 'cancel', :action => 'index' %>

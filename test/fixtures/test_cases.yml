@@ -1,0 +1,32 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+# one:
+  # name: test_case_1
+  # test_target: one
+#
+# two:
+  # name: test_case_2
+  # test_target: one
+#
+# three:
+  # name: test_case_3
+  # test_target: one
+#
+# four:
+  # name: code_1_gen6
+  # test_target: one
+#
+# five:
+  # name: code_1_gen7
+  # test_target: one
+#
+# six:
+  # name: code_2_gen6
+  # test_target: one
+
+seven:
+  name: code_2_gen7
+  test_target: one
+
+# two:
+#   column: value

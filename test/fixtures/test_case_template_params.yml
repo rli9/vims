@@ -1,0 +1,11 @@
+one:
+  name: code
+  test_case_template: two
+
+two:
+  name: gen_mode
+  test_case_template: two
+
+three:
+  name: OS
+  test_case_template: two

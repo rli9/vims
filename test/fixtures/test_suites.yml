@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: 1_TestSuite
+  test_target: one
+   
+two:
+  name: 2_TestSuite
+  test_target: one
+   
+three:
+  name: 3_TestSuite
+  test_target: one
+   
+# two:
+#   column: value

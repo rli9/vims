@@ -1,0 +1,16 @@
+<%= form_tag('/test_suites/create_test_case_test_suite_association') do %>
+  <% table_tag do %>
+    <% tr_tag do %>
+      <%= th_tag('test suite name') %>
+      <%= th_tag('test case name') %>
+      <%= th_tag('To Do') %>
+    <% end %>
+    <% tr_tag do %>
+      <%= td_tag(@test_suite.name) %>
+      <%= td_tag(text_field_tag 'test_case_name', @test_case_name) %>
+      <%= hidden_field_tag 'id', @test_suite.id %>
+      <%= td_tag(submit_button_green_tag("Create")) %>
+    <% end %>
+  <% end %>
+<% end %>
+<%= link_to 'cancel', :action => 'index' %>

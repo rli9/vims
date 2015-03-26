@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "jquery_ujs", "data-turbolinks-track" => true %>
+
+    <title><%= controller.class.name + ": " + controller.action_name %></title>
+
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title> <%= controller.class.name + ": " + controller.action_name %> </title>
+  </head>
+
+  <body>
+    <%= render :partial => '/shared/top_bar' %>
+
+    <div id="page_all">
+      <div id="page">
+        <div id="header">
+          <div id="logo">
+            <a href="projects/"><%= image_tag "vims.gif" %></a>
+          </div>
+
+          <div id="head_box">
+            <div id="project_name">
+              <% if controller.controller_name == 'test_target_instances' && @test_target_instance %>
+              <p>
+                <%= @test_target_instance.name %> (<div id="profile"></div>)
+              </p>
+              <% elsif session[:project_id] && @project %>
+              <p>
+                <%= @project.name %> (<div id="profile"></div>)
+              </p>
+              <% else %>
+              <p>
+                <div id="profile"></div>
+              </p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div id="top_menu">
+          <% if @member %>
+            <%= left_button_tag 'All Projects',  :controller => 'projects', :action => 'index' %>
+            <%= left_button_tag 'Create Project',  :controller => 'projects', :action => 'new' %>
+          <% end %>
+
+          <% if session[:project_id] %>
+            <%= left_button_tag 'Test Cases',  :controller => 'test_cases', :action => 'search' %>
+            <%= left_button_tag 'Builds',  :controller => 'test_target_instances', :action => 'index' %>
+            <%= left_button_tag 'Test Case Templates', :controller => 'test_case_templates', :action => 'index' %>
+            <%= left_button_tag 'Bug Maps', :controller => 'bug_tracks', :action => 'index' %>
+          <% end %>
+        </div>
+
+        <div id="container_bg">
+          <div id="container">
+            <div id="content">
+              <div id="notice"  align="center">
+                <% if flash[:notice] %>
+                  <h3><p style="color: green"> <%= h flash[:notice] %> </p></h3>
+                <% end %>
+              </div>
+              <p>
+                <%= yield %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
