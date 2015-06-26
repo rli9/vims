@@ -12,7 +12,7 @@ class BugTracksController < ProjectsController
     @bug_ids_bug_tracks.select! {|key, value| open_bug_ids.include? key}
 
     @unmapped_bugs = @open_bugs.select {|bug| !@bug_ids_bug_tracks.keys.include?(bug.bug_id) &&
-                                              BUGZILLA_CONFIG[:qa_emails].include?(bug.profile.login_name)}
+                                              BUGZILLA_CONFIG["qa_emails"].include?(bug.profile.login_name)}
   end
 
   def new
