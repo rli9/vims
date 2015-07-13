@@ -193,7 +193,13 @@ class TestTargetInstancesController < ProjectsController
     @weighted_test_results = @test_target_instance.weighted_test_results.select('test_case_id, value')
 
     @bug_tracker_url = TestTarget.find(session[:test_target_id]).bug_tracker_url
-    @test_case_ids_bug_tracks = BugTrack.where(test_target_id: session[:test_target_id]).includes(:bug).group_by(&:test_case_id)
+    begin
+      @test_case_ids_bug_tracks = BugTrack.where(test_target_id: session[:test_target_id]).includes(:bug).group_by(&:test_case_id)
+    rescue Exception => e
+      # Handle bugzilla database instability or unaccessible that connection sometimes fails
+      @test_case_ids_bug_tracks = {}
+      STDERR.puts e.message
+    end
 
     @test_case_ids = @weighted_test_results.map(&:test_case_id)
     test_cases = @test_case_ids.collect_every(10000) do |partial_test_case_ids|
